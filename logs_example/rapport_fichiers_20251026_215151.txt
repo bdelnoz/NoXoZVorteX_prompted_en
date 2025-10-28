@@ -1,0 +1,65 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    RAPPORT DE CHARGEMENT DES FICHIERS                        ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Date: 26/10/2025 à 21:51:51
+Nombre de fichiers traités: 3
+
+════════════════════════════════════════════════════════════════════════════════
+DÉTAILS PAR FICHIER
+════════════════════════════════════════════════════════════════════════════════
+
+[1] example_chatgpt_json.json
+    Chemin: ./data_example/example_chatgpt_json.json
+    Format: CHATGPT
+    Statut: OK
+    Conversations: 2
+    Messages: 6
+    Titres des conversations:
+        [1] Python Security Best Practices
+        [2] Machine Learning Model Deployment
+
+--------------------------------------------------------------------------------
+
+[2] example_claude_json.json
+    Chemin: ./data_example/example_claude_json.json
+    Format: CLAUDE
+    Statut: OK
+    Conversations: 2
+    Messages: 6
+    Titres des conversations:
+        [1] Secure Coding Review
+        [2] Docker Security Hardening
+
+--------------------------------------------------------------------------------
+
+[3] example_lechat_json.json
+    Chemin: ./data_example/example_lechat_json.json
+    Format: LECHAT
+    Statut: OK
+    Conversations: 1
+    Messages: 6
+    Titres des conversations:
+        [1] example_lechat_json
+
+--------------------------------------------------------------------------------
+
+════════════════════════════════════════════════════════════════════════════════
+STATISTIQUES PAR FORMAT AI
+════════════════════════════════════════════════════════════════════════════════
+
+CHATGPT:
+  Fichiers: 1
+  Conversations: 2
+  Messages: 6
+
+CLAUDE:
+  Fichiers: 1
+  Conversations: 2
+  Messages: 6
+
+LECHAT:
+  Fichiers: 1
+  Conversations: 1
+  Messages: 6
+

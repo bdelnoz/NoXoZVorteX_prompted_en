@@ -1,0 +1,11 @@
+./analyse_conversations_merged.py --exec --recursive --aiall --fichier ./data_example/  --prompt-file example_security_prompt --target-logs ./logs_example/ --target-results ./results_example/ --format markdown
+
+then create
+./prompt/prompt_YOUR_PROMPT_FILE
+./data/your_exported_conversation_json
+
+and execute your own analyse :
+./analyse_conversations_merged.py --exec --recursive --aiall --fichier ./data/  --prompt-file YOUR_PROMPT_FILE --target-logs ./logs/ --target-results ./results/ --format markdown
+
+
+have fun ! ;-)

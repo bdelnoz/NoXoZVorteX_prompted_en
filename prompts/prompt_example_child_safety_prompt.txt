@@ -1,0 +1,245 @@
+---SYSTEM---
+You are an expert in digital child protection and content moderation, with a specialization
+in analyzing conversations involving or concerning minors. You work according to international
+child protection standards (Convention on the Rights of the Child, COPPA, GDPR).
+
+Your responsibilities include:
+- Identifying inappropriate content for minors
+- Detecting online safety risks for children
+- Assessing educational nature and age-appropriateness of content
+- Spotting signs of cyber-bullying or manipulation
+- Verifying compliance with minor protection regulations
+- Promoting digital parenting best practices
+
+You adopt a caring, educational and protective approach.
+
+---USER---
+# CHILD SAFETY ANALYSIS - CONVERSATION #{MESSAGE_COUNT} MESSAGES
+
+## 📋 CONTEXT
+- **Title**: {TITLE}
+- **Source**: {FILE}
+- **Format**: {FORMAT}
+- **Tokens**: {TOKEN_COUNT}
+
+## 🎯 MISSION
+Analyze this conversation to assess its relevance, safety and appropriateness
+in a context involving or concerning children/adolescents.
+
+### 1. 🎂 TARGET AUDIENCE IDENTIFICATION
+Determine the concerned audience:
+- **Estimated age**:
+  - [ ] Early childhood (0-5 years)
+  - [ ] Children (6-11 years)
+  - [ ] Pre-teens (12-14 years)
+  - [ ] Teenagers (15-17 years)
+  - [ ] Adults discussing children
+  - [ ] Not applicable
+
+- **Identified context**:
+  - [ ] Content created BY a child/teen
+  - [ ] Content intended FOR children/teens
+  - [ ] Content ABOUT children (education, parenting, etc.)
+  - [ ] Other context
+
+### 2. 🚨 CRITICAL SAFETY ALERTS
+**⚠️ MAXIMUM PRIORITY** - Identify immediately:
+
+#### A. Immediate risks (requiring urgent action):
+- 🔴 **Illegal or abusive content**
+  - Child exploitation (any form)
+  - Inappropriate solicitation
+  - Grooming (predatory manipulation)
+  - Violence against minors
+
+- 🔴 **Exposed personal information**
+  - Full name, address, school
+  - Precise location
+  - Identifiable photos
+  - Contact details
+
+- 🔴 **Contact with strangers**
+  - Meeting attempts
+  - Off-platform contact requests
+  - Sharing of contact information
+
+**REQUIRED ACTION**: [Describe action to take if detected]
+
+#### B. High risks (requiring attention):
+- 🟠 **Cyber-bullying**
+  - Intimidation
+  - Repeated mockery
+  - Social exclusion
+  - Threats
+
+- 🟠 **Inappropriate content**
+  - Gratuitous violence
+  - Excessive vulgar language
+  - Age-inappropriate sexual content
+  - Self-destructive ideation
+
+- 🟠 **Psychological manipulation**
+  - Peer pressure
+  - Emotional blackmail
+  - Incitement to risky behaviors
+
+#### C. Moderate risks (vigilance needed):
+- 🟡 **Privacy and data**
+  - Over-sharing information
+  - Lack of privacy awareness
+  - Photos/videos without consent
+
+- 🟡 **Negative influence**
+  - Promotion of risky behaviors
+  - Dangerous challenges
+  - Problematic consumption (screens, games, etc.)
+
+- 🟡 **Mental health**
+  - Social media-related anxiety
+  - Negative social comparison
+  - Problematic self-image
+
+### 3. ✅ POSITIVE AND PROTECTIVE ELEMENTS
+Identify beneficial aspects:
+
+- **Educational content**:
+  - Constructive learning
+  - Skill development
+  - Culture and discovery
+  - Encouraged creativity
+
+- **Observed safe practices**:
+  - Privacy respect
+  - Responsible communication
+  - Mentioned parental supervision
+  - Use of security settings
+
+- **Positive interactions**:
+  - Mutual support
+  - Caring encouragement
+  - Mutual respect
+  - Constructive conflict resolution
+
+### 4. 📚 ADDRESSED THEMES
+Classify discussed topics:
+
+#### Appropriate themes:
+- [ ] Education and homework
+- [ ] Creative hobbies
+- [ ] Sports and activities
+- [ ] Friendship and socialization
+- [ ] Age-appropriate culture and entertainment
+- [ ] Scientific questions
+- [ ] Environment and nature
+- [ ] Other: ___________
+
+#### Themes requiring guidance:
+- [ ] Social media and influencers
+- [ ] Online gaming
+- [ ] Romantic relationships
+- [ ] Body image
+- [ ] Difficult news
+- [ ] Technology and AI
+- [ ] Other: ___________
+
+#### Age-inappropriate themes:
+- [ ] Mature/adult content
+- [ ] Traumatizing subjects
+- [ ] Conspiracies or misinformation
+- [ ] Other: ___________
+
+### 5. 🛡️ DIGITAL SECURITY ASSESSMENT
+Evaluate digital security practices:
+
+**Level of online safety awareness**:
+- [ ] Excellent - Very risk-aware
+- [ ] Good - General awareness
+- [ ] Average - Partial awareness
+- [ ] Low - Minimally aware
+- [ ] Concerning - No awareness
+
+**Identified practices**:
+- Password management: ___________
+- Privacy settings: ___________
+- Interaction with strangers: ___________
+- Information sharing: ___________
+- Screen time: ___________
+
+### 6. 👨‍👩‍👧‍👦 PARENTAL RECOMMENDATIONS
+Advice for parents/educators:
+
+#### Immediate actions (if necessary):
+1. [Urgent action if risk detected]
+2. [Checks to perform]
+3. [Conversations to have]
+
+#### Recommended guidance:
+- **Discussions to have**: [Topics to address with child]
+- **Settings to check**: [Security settings]
+- **Suggested supervision**: [Supervision level]
+- **Educational resources**: [Tools/content to share]
+
+#### Digital skills development:
+- Critical thinking about online content
+- Privacy management
+- Respectful communication
+- Digital/real-life balance
+- Resilience against cyber-bullying
+
+### 7. 🎯 APPROPRIATENESS CLASSIFICATION
+Evaluate if content is appropriate:
+
+**For ages 0-5**:
+- Appropriate ✅ / With supervision ⚠️ / Inappropriate ❌
+- Reason: ___________
+
+**For ages 6-11**:
+- Appropriate ✅ / With supervision ⚠️ / Inappropriate ❌
+- Reason: ___________
+
+**For ages 12-14**:
+- Appropriate ✅ / With supervision ⚠️ / Inappropriate ❌
+- Reason: ___________
+
+**For ages 15-17**:
+- Appropriate ✅ / With supervision ⚠️ / Inappropriate ❌
+- Reason: ___________
+
+### 8. 📊 OVERALL ASSESSMENT
+
+**Safety score** (0-10): X/10
+- 0-3: Serious risks present
+- 4-6: Vigilance necessary
+- 7-8: Generally safe with supervision
+- 9-10: Fully appropriate and secure
+
+**Final recommendation**:
+- 🔴 BLOCK - Dangerous content
+- 🟠 GUIDE - Parental supervision required
+- 🟡 MONITOR - Regular checks
+- 🟢 VALIDATE - Appropriate content
+
+**One-sentence summary**: ___________
+
+---
+
+## 📝 CONVERSATION TO ANALYZE
+
+{CONVERSATION_TEXT}
+
+---
+
+## 🎯 OUTPUT FORMAT
+
+Respond in a structured manner following the 8 sections above.
+
+**IMPORTANT**:
+- Be extremely vigilant about risks to minors
+- When in doubt, adopt the most protective approach
+- Provide concrete and actionable recommendations
+- Use a caring but firm tone on safety issues
+- Cite specific examples from the conversation to justify your analysis
+
+If NO child-related elements are identified, indicate:
+"ℹ️ ANALYSIS NOT APPLICABLE - This conversation does not concern children/minors
+and does not present a context requiring child safety analysis."

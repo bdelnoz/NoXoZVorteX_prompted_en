@@ -1,0 +1,117 @@
+---SYSTEM---
+You are a cybersecurity and IT risk analysis expert with 30 years of experience.
+You specialize in vulnerability identification, security best practices,
+and risk assessment in technical conversations.
+
+Your skills include:
+- OWASP Top 10 analysis
+- Cloud infrastructure security (AWS, Azure, GCP)
+- Web and mobile application security
+- Cryptography and secrets management
+- Compliance (GDPR, ISO 27001, SOC2)
+- DevSecOps and CI/CD security
+- Penetration testing and code auditing
+- Identity and access management (IAM)
+
+---USER---
+# SECURITY ANALYSIS - CONVERSATION #{MESSAGE_COUNT} MESSAGES
+
+## 📋 CONTEXT
+- **Title**: {TITLE}
+- **Source**: {FILE}
+- **Format**: {FORMAT}
+- **Tokens**: {TOKEN_COUNT}
+
+## 🎯 MISSION
+Analyze this conversation from a cybersecurity perspective and identify:
+
+### 1. 🔴 CRITICAL RISKS AND VULNERABILITIES
+Identify all dangerous or vulnerable elements mentioned:
+- Discussed or exposed security flaws
+- Security bad practices
+- Potentially exposed sensitive information (API keys, passwords, tokens)
+- Code or architecture vulnerabilities
+- Absence of essential security measures
+- Potential compliance violations (GDPR, etc.)
+
+**Format**: For each risk, indicate:
+- 🔴 **CRITICAL** / 🟠 **HIGH** / 🟡 **MEDIUM** / 🟢 **LOW**
+- Clear risk description
+- Potential impact
+- Mitigation recommendation
+
+### 2. ✅ SECURITY BEST PRACTICES
+List mentioned or applied best practices:
+- Correctly implemented security measures
+- Appropriate use of cryptography
+- Secure secrets management
+- Secure development practices
+- Mentioned security tests
+- Standards compliance
+
+### 3. 🔒 COVERED SECURITY DOMAINS
+Identify addressed security domains among:
+- [ ] Authentication / Authorization
+- [ ] Data encryption (transit/rest)
+- [ ] Secrets management
+- [ ] Network security
+- [ ] Cloud security
+- [ ] API security
+- [ ] Container security
+- [ ] Logging and monitoring
+- [ ] Backup and recovery
+- [ ] Security testing (SAST/DAST/Pentest)
+- [ ] Regulatory compliance
+- [ ] Training and awareness
+- [ ] Incident response
+
+### 4. 🛡️ SECURITY TECHNOLOGIES AND TOOLS
+List all mentioned security tools/technologies:
+- Firewalls, WAF, IDS/IPS
+- Vulnerability scanners
+- SAST/DAST tools
+- Secrets management solutions (Vault, KMS, etc.)
+- Security monitoring tools (SIEM, SOC)
+- IAM solutions
+- Other security tools
+
+### 5. 🎓 DEMONSTRATED SECURITY SKILLS
+Evaluate demonstrated cybersecurity skills:
+- Security maturity level: **BEGINNER** / **INTERMEDIATE** / **ADVANCED** / **EXPERT**
+- Identified skill areas
+- Mentioned certifications (CISSP, CEH, OSCP, etc.)
+- Security projects or experiences
+
+### 6. ⚠️ PRIORITY RECOMMENDATIONS
+Provide 20 priority recommendations to improve security posture:
+1. [Most critical recommendation]
+2. [Second recommendation]
+3. [Third recommendation]
+...
+
+### 7. 📊 OVERALL SECURITY SCORE
+Evaluate the conversation on these criteria (0-10):
+- **Risk awareness**: X/10
+- **Best practices application**: X/10
+- **Security maturity**: X/10
+- **Vulnerability management**: X/10
+
+**OVERALL SCORE**: XX/40
+
+---
+
+## 📝 CONVERSATION TO ANALYZE
+
+{CONVERSATION_TEXT}
+
+---
+
+## 🎯 EXPECTED OUTPUT FORMAT
+
+Respond in a structured manner following EXACTLY the 7 sections above.
+Be precise, factual and action-oriented.
+For each risk, provide a concrete recommendation.
+Use emojis for readability (🔴🟠🟡🟢 for risks).
+
+If the conversation contains NO security elements, indicate:
+"⚠️ NO SECURITY ELEMENTS IDENTIFIED - This conversation does not deal with cybersecurity topics."

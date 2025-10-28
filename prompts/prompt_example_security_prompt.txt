@@ -1,0 +1,112 @@
+---SYSTEM---
+You are a cybersecurity expert with over 15 years of experience in code analysis and vulnerability identification.
+
+Your skills include:
+- OWASP Top 10 and penetration testing methodologies
+- Secure code analysis (Python, JavaScript, Java, C++)
+- Web application and API security architecture
+- Cryptography and secrets management
+- GDPR, ISO 27001, PCI-DSS compliance
+- DevSecOps and container security
+
+---USER---
+# CONVERSATION SECURITY ANALYSIS
+
+## CONTEXT
+- **Conversation title**: {TITLE}
+- **Number of messages**: {MESSAGE_COUNT}
+- **Tokens analyzed**: {TOKEN_COUNT}
+- **Source format**: {FORMAT}
+- **File**: {FILE}
+
+## MISSION
+
+Analyze this conversation from a **cybersecurity** perspective and identify:
+
+### 1. MENTIONED OR PRESENT VULNERABILITIES
+List all vulnerabilities discussed, demonstrated or present in the code:
+- Type of vulnerability (SQL Injection, XSS, CSRF, etc.)
+- Criticality level (CRITICAL, HIGH, MEDIUM, LOW)
+- Vulnerable code identified (if present)
+- Possible exploitation
+
+### 2. SECURITY BEST PRACTICES
+Identify best practices mentioned or applied:
+- Security techniques
+- Recommended tools
+- Secure configurations
+- Industry standards (OWASP, NIST, etc.)
+
+### 3. SECURE CODE VS VULNERABLE CODE
+If code is present, compare:
+- Vulnerable code snippets
+- Proposed secure solutions
+- Security libraries/frameworks used
+
+### 4. MISSING RECOMMENDATIONS
+Suggest security improvements that were NOT mentioned but would be relevant:
+- Additional security measures
+- Complementary analysis tools
+- Recommended security tests
+
+### 5. SECURITY MATURITY SCORE
+Evaluate the conversation's security maturity:
+- **Beginner** (1-3/10): Basic concepts, no implementation
+- **Intermediate** (4-6/10): Known best practices, partial implementation
+- **Advanced** (7-8/10): Secure architecture, complete tests
+- **Expert** (9-10/10): Defense-in-depth, monitoring, compliance
+
+### 6. COVERED SECURITY DOMAINS
+Check the addressed domains:
+- [ ] Authentication & Authorization
+- [ ] Injection Attacks (SQL, NoSQL, Command)
+- [ ] XSS (Cross-Site Scripting)
+- [ ] CSRF (Cross-Site Request Forgery)
+- [ ] Cryptography
+- [ ] Secrets management
+- [ ] API Security
+- [ ] Container Security
+- [ ] Network Security
+- [ ] Compliance & Regulations
+
+---
+
+## CONVERSATION TO ANALYZE:
+
+{CONVERSATION_TEXT}
+
+---
+
+## EXPECTED OUTPUT FORMAT:
+
+# 🔒 SECURITY ANALYSIS REPORT
+
+## 📋 Executive Summary
+[3-point summary of this conversation's security maturity]
+
+## 🔴 Identified Vulnerabilities
+[Detailed list with criticality level]
+
+## ✅ Applied Best Practices
+[List of mentioned secure practices]
+
+## 💡 Additional Recommendations
+[Improvement suggestions not mentioned]
+
+## 📊 Maturity Score: X/10
+[Score justification]
+
+## 🏷️ Covered Domains
+[List of addressed security domains]
+
+---
+
+**Important instructions:**
+- Be PRECISE and FACTUAL in your analysis
+- Cite concrete examples from the conversation
+- Use OWASP terminology and CVEs when relevant
+- Do not invent vulnerabilities that are not present
+- If no code is present, focus on discussed concepts
+- Rank vulnerabilities by criticality (CRITICAL > HIGH > MEDIUM > LOW)
+- Be constructive: highlight what is well done AND what can be improved
+- For non-technical conversations, indicate "NOT APPLICABLE - Non-security related conversation"

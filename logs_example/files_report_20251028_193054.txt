@@ -1,0 +1,65 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║                    FILE LOADING REPORT                                       ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+Date: 10/28/2025 at 19:30:54
+Number of files processed: 3
+
+================================================================================
+DETAILS BY FILE
+================================================================================
+
+[1] example_chatgpt_json.json
+    Path: ./data_example/example_chatgpt_json.json
+    Format: CHATGPT
+    Status: OK
+    Conversations: 2
+    Messages: 6
+    Conversation titles:
+        [1] Python Security Best Practices
+        [2] Machine Learning Model Deployment
+
+--------------------------------------------------------------------------------
+
+[2] example_claude_json.json
+    Path: ./data_example/example_claude_json.json
+    Format: CLAUDE
+    Status: OK
+    Conversations: 2
+    Messages: 6
+    Conversation titles:
+        [1] Secure Coding Review
+        [2] Docker Security Hardening
+
+--------------------------------------------------------------------------------
+
+[3] example_lechat_json.json
+    Path: ./data_example/example_lechat_json.json
+    Format: LECHAT
+    Status: OK
+    Conversations: 1
+    Messages: 6
+    Conversation titles:
+        [1] example_lechat_json
+
+--------------------------------------------------------------------------------
+
+================================================================================
+STATISTICS BY AI FORMAT
+================================================================================
+
+CHATGPT:
+  Files: 1
+  Conversations: 2
+  Messages: 6
+
+CLAUDE:
+  Files: 1
+  Conversations: 2
+  Messages: 6
+
+LECHAT:
+  Files: 1
+  Conversations: 1
+  Messages: 6
+
