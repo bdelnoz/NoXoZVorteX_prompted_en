@@ -10,23 +10,17 @@ import os
 import re
 from datetime import datetime
 from typing import Optional
-from config import LOG_FILE, MAX_LOG_SIZE
 
 
 def ecrire_log(message: str, niveau: str = "INFO") -> None:
-    """Writes to log file with rotation."""
-    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    log_message = f"[{timestamp}] [{niveau}] {message}\n"
-    try:
-        if os.path.exists(LOG_FILE) and os.path.getsize(LOG_FILE) >= MAX_LOG_SIZE:
-            backup_file = f"{LOG_FILE}.old"
-            if os.path.exists(backup_file):
-                os.remove(backup_file)
-            os.rename(LOG_FILE, backup_file)
-        with open(LOG_FILE, 'a', encoding='utf-8') as f:
-            f.write(log_message)
-    except Exception as e:
-        print(f"⚠️  Log error: {e}")
+    """
+    Writes to log file with rotation.
+    DEPRECATED: Use ecrire_log_local() in analyse_conversations_merged.py instead.
+    This function is kept for backward compatibility only.
+    """
+    # This function is deprecated and does nothing
+    # Logging is now handled by ecrire_log_local() with proper directory management
+    pass
 
 
 def nettoyer_texte(texte: str) -> str:

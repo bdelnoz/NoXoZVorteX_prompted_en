@@ -16,13 +16,11 @@ from typing import List, Dict
 # Ensure local imports are available or handle them
 try:
     from config import ENV_DIR, DEPENDANCES
-    from utils import ecrire_log
 except ImportError:
     # Minimal fallback if initial import fails
     ENV_DIR = ".venv_analyse"
+    # Dependencies listed in config.py file
     DEPENDANCES = ["requests", "tqdm", "tiktoken", "mistletoe", "anthropic", "python-dotenv"]
-    def ecrire_log(*args, **kwargs):
-        pass
 
 
 # Mapping of pip package names to their import names
@@ -43,12 +41,13 @@ def get_import_name(package_name: str) -> str:
 
 def verifier_prerequis_systeme() -> bool:
     """Verifies system prerequisites (Python3, permissions)."""
-    ecrire_log("System prerequisites verification", "INFO")
     print("🔍 Checking system prerequisites...")
     pre_ok = True
     if not shutil.which("python3"):
         print("❌ Python3 not found")
         pre_ok = False
+    if not os.geteuid() == 0:
+        print("⚠️  Not sudo, but script handles this if needed for installation")
     print("✅ System prerequisites OK" if pre_ok else "❌ System prerequisites missing")
     return pre_ok
 
@@ -61,66 +60,32 @@ def verifier_dependances() -> List[str]:
     venv_path = os.path.join(os.path.abspath(os.path.dirname(__file__)), ENV_DIR)
 
     if not os.path.exists(venv_path):
+        # If venv doesn't exist, consider no packages installed.
         return list(DEPENDANCES)
 
     manquantes = []
     python_path = os.path.join(venv_path, "bin", "python3")
 
     if not os.path.exists(python_path):
+        # Venv exists but no executable, environment/creation problem.
         return list(DEPENDANCES)
 
-    # Use pip list to check installed packages (more reliable)
-    pip_path = os.path.join(venv_path, "bin", "pip")
-
-    try:
-        result = subprocess.run(
-            [pip_path, "list", "--format=freeze"],
-            capture_output=True,
-            text=True,
-            timeout=10
-        )
-
-        if result.returncode == 0:
-            installed_packages = set()
-            for line in result.stdout.strip().split('\n'):
-                if '==' in line:
-                    package_name = line.split('==')[0].lower()
-                    installed_packages.add(package_name)
-
-            # Check each dependency
-            for dep in DEPENDANCES:
-                package_name = dep.lower()
-                if package_name not in installed_packages:
-                    manquantes.append(dep)
-        else:
-            # Fallback to import check if pip list fails
-            for dep in DEPENDANCES:
-                import_name = get_import_name(dep)
-                try:
-                    result = subprocess.run(
-                        [python_path, "-c", f"import {import_name}"],
-                        capture_output=True,
-                        timeout=5
-                    )
-                    if result.returncode != 0:
-                        manquantes.append(dep)
-                except Exception:
-                    manquantes.append(dep)
-    except Exception as e:
-        print(f"⚠️  Warning during dependency check: {e}")
-        # Fallback to import check
-        for dep in DEPENDANCES:
-            import_name = get_import_name(dep)
-            try:
-                result = subprocess.run(
-                    [python_path, "-c", f"import {import_name}"],
-                    capture_output=True,
-                    timeout=5
-                )
-                if result.returncode != 0:
-                    manquantes.append(dep)
-            except Exception:
+    # If we're in the venv, verify packages
+    print(f"🔍 Checking packages in {ENV_DIR}...")
+    for dep in DEPENDANCES:
+        import_name = get_import_name(dep)
+        try:
+            # Try to verify WITHIN the venv
+            # Use the venv's python to check the import
+            result = subprocess.run(
+                [python_path, "-c", f"import {import_name}"],
+                capture_output=True,
+                timeout=5
+            )
+            if result.returncode != 0:
                 manquantes.append(dep)
+        except Exception:
+            manquantes.append(dep)
 
     return manquantes
 
@@ -132,10 +97,13 @@ def verifier_prerequis_complet() -> None:
 
     if manquantes:
         if len(manquantes) == len(DEPENDANCES):
+            # Venv is not ready or empty
             print(f"\n❌ The venv ({ENV_DIR}) is not ready.")
         else:
+            # Some packages are missing (rare case)
             print(f"\n❌ Missing dependencies: {', '.join(manquantes)}.")
 
+        # Clear action message
         print(f"   Please run the installation with: `./analyse_conversations_merged.py --install`")
     else:
         print("\n✅ All dependencies are installed and the environment is ready.")
@@ -143,8 +111,6 @@ def verifier_prerequis_complet() -> None:
 
 def installer_dependances() -> bool:
     """Installs dependencies with a robustness loop."""
-    ecrire_log("Installing dependencies", "INFO")
-
     if not os.path.exists(ENV_DIR):
         print(f"📦 Creating virtual environment...")
         try:
@@ -159,24 +125,20 @@ def installer_dependances() -> bool:
         print("❌ pip not found in venv.")
         return False
 
-    # Update pip
+    # Improvement 1: Update/Install pip itself
     try:
-        print("⚙️  Updating pip...")
-        result = subprocess.run(
+        print("⚙️ Updating pip...")
+        subprocess.run(
             [pip_path, "install", "--upgrade", "pip"],
             check=True,
             capture_output=True,
-            text=True,
-            timeout=120
+            text=True
         )
     except subprocess.CalledProcessError as e:
         print(f"❌ pip update failed: {e.stderr.strip()}")
         return False
-    except subprocess.TimeoutExpired:
-        print(f"❌ pip update timeout")
-        return False
 
-    # Installation loop with better error handling
+    # Improvement 2: Robust installation loop
     max_tentatives = 3
     for tentative in range(1, max_tentatives + 1):
         manquantes = verifier_dependances()
@@ -191,56 +153,33 @@ def installer_dependances() -> bool:
             print(f"📥 Installing {len(manquantes)} package(s): {', '.join(manquantes)}")
 
         try:
-            # Install packages one by one for better error tracking
-            failed_packages = []
-            for package in manquantes:
-                print(f"   Installing {package}...", end=' ')
-                try:
-                    result = subprocess.run(
-                        [pip_path, "install", package],
-                        capture_output=True,
-                        text=True,
-                        timeout=120,
-                        check=True
-                    )
-                    print("✓")
-                except subprocess.CalledProcessError as e:
-                    print(f"✗")
-                    print(f"      Error: {e.stderr.strip()[:200]}")
-                    failed_packages.append(package)
-                except subprocess.TimeoutExpired:
-                    print(f"✗ (timeout)")
-                    failed_packages.append(package)
+            result = subprocess.run(
+                [pip_path, "install", "-q"] + manquantes,
+                check=True,
+                capture_output=True,
+                text=True
+            )
 
             # Verification after this attempt
             encore_manquantes = verifier_dependances()
-
             if not encore_manquantes:
                 print("✅ Installation completed successfully.")
                 return True
 
-            if failed_packages:
-                print(f"⚠️  Failed packages: {', '.join(failed_packages)}")
-                if tentative == max_tentatives:
-                    print(f"\n💡 Try manual installation:")
-                    print(f"   source {ENV_DIR}/bin/activate")
-                    print(f"   pip install {' '.join(failed_packages)}")
-                    return False
-
             if tentative < max_tentatives:
                 continue
 
-            # Last attempt failed
+            # If it's the last attempt and there are still missing packages
             print(f"❌ After {max_tentatives} attempts, packages are still missing: {', '.join(encore_manquantes)}")
-            print(f"\n💡 Try manual installation:")
-            print(f"   source {ENV_DIR}/bin/activate")
-            print(f"   pip install {' '.join(encore_manquantes)}")
             return False
 
-        except Exception as e:
-            print(f"❌ Unexpected error during installation: {e}")
+        except subprocess.CalledProcessError as e:
+            print(f"❌ Installation failed on attempt {tentative}: {e.stderr.strip()}")
             if tentative == max_tentatives:
                 return False
+        except Exception as e:
+            print(f"❌ Unexpected error during installation: {e}")
+            return False
 
     return False
 
@@ -259,5 +198,4 @@ def supprimer_fichier(fichier: str, backup: bool = True) -> bool:
         print(f"💾 Backup: {backup_file}")
     os.remove(fichier)
     print(f"🗑️  Deleted: {fichier}")
-    ecrire_log(f"Deleted {fichier} (backup: {backup_file if backup else 'no'})", "INFO")
     return True

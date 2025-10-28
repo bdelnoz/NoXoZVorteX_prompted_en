@@ -7,7 +7,6 @@ Handles message extraction from different formats (ChatGPT, LeChat, Claude)
 """
 
 from typing import List, Dict, Any
-from utils import ecrire_log
 
 
 def detecter_format_json(data: Any, fichier: str) -> str:
@@ -17,28 +16,21 @@ def detecter_format_json(data: Any, fichier: str) -> str:
             if len(data) > 0 and isinstance(data[0], dict):
                 premier = data[0]
                 if 'mapping' in premier and 'title' in premier:
-                    ecrire_log(f"Format detected: ChatGPT for {fichier}", "INFO")
                     return 'chatgpt'
                 if 'role' in premier and 'content' in premier:
-                    ecrire_log(f"Format detected: LeChat for {fichier}", "INFO")
                     return 'lechat'
                 if 'uuid' in premier and 'chat_messages' in premier:
-                    ecrire_log(f"Format detected: Claude for {fichier}", "INFO")
                     return 'claude'
 
         if isinstance(data, dict):
             if 'messages' in data or 'exchanges' in data:
-                ecrire_log(f"Format detected: LeChat (dict) for {fichier}", "INFO")
                 return 'lechat'
             if 'uuid' in data and 'chat_messages' in data:
-                ecrire_log(f"Format detected: Claude for {fichier}", "INFO")
                 return 'claude'
 
-        ecrire_log(f"Unknown format for {fichier}", "WARNING")
         return 'unknown'
 
-    except Exception as e:
-        ecrire_log(f"Format detection error {fichier}: {e}", "ERROR")
+    except Exception:
         return 'unknown'
 
 
@@ -75,7 +67,7 @@ def extraire_messages_chatgpt(conversation: Dict[str, Any]) -> List[str]:
 def extraire_messages_lechat(conversation: Dict[str, Any]) -> List[str]:
     """Extracts messages from a LeChat (Mistral) conversation."""
     messages = []
-    
+
     if isinstance(conversation, list):
         for msg in conversation:
             if not isinstance(msg, dict):

@@ -5,7 +5,7 @@
 Script name: analyse_conversations_merged.py
 Author: Bruno DELNOZ - bruno.delnoz@protonmail.com
 Version: v3.0.2 - LOG AND REPORT FIXES
-Date: 2025-10-26
+Date: 2025-10-28
 
 Main script - Custom prompt execution engine
 """
@@ -25,7 +25,7 @@ from concurrent.futures import ThreadPoolExecutor, as_completed
 
 # Local module imports
 from config import (
-    VERSION, INPUT_FILE, MAX_WORKERS, MODEL, MAX_TOKENS,
+    VERSION, MAX_WORKERS, MODEL, MAX_TOKENS,
     ENV_DIR, obtenir_api_key
 )
 from utils import compter_tokens
@@ -328,6 +328,8 @@ def charger_fichiers(fichiers_a_traiter: List[str], format_source: str) -> tuple
     return toutes_conversations, stats_chargement, details_fichiers
 
 
+# CONTINUATION OF analyse_conversations_merged.py
+
 def generer_rapport_fichiers(details_fichiers: List[Dict], logs_dir: Path) -> None:
     """Generates a detailed report of loaded files."""
     rapport_file = logs_dir / f"files_report_{datetime.now().strftime('%Y%m%d_%H%M%S')}.txt"
@@ -452,7 +454,7 @@ def main() -> None:
     parser.add_argument('--only-split', action='store_true', default=False)
     parser.add_argument('--not-split', action='store_true', default=False)
     parser.add_argument('--cnbr', type=int)
-    parser.add_argument('--fichier', '-F', type=str, nargs='*', default=[INPUT_FILE])
+    parser.add_argument('--fichier', '-F', type=str, nargs='*', default=[])
     parser.add_argument('--model', '-m', type=str, default=MODEL)
     parser.add_argument('--workers', '-w', type=int, default=MAX_WORKERS)
     parser.add_argument('--delay', '-d', type=float, default=0.5)
@@ -668,10 +670,6 @@ def main() -> None:
     toutes_conversations = rapport_doublons['conversations_uniques']
     print()
 
-    # ========================================================================
-    # ACTUAL EXECUTION PART
-    # ========================================================================
-
     # Message extraction and splitting
     print("🔍 Extracting messages...")
     ecrire_log_local("Extracting messages...", "INFO")
@@ -844,7 +842,7 @@ def main() -> None:
     else:
         output_file = output_base
 
-    # FIX: Save in RESULTS_DIR
+    # Save in RESULTS_DIR
     output_path = RESULTS_DIR / output_file
 
     ecrire_log_local(f"Output file: {output_path}", "INFO")

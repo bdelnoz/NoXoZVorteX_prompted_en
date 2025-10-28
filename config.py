@@ -10,16 +10,13 @@ import os
 
 # Metadata
 VERSION = "v3.0.2"
-DATE = "2025-10-19"
+DATE = "2025-10-28"
 AUTHOR = "Bruno DELNOZ - bruno.delnoz@protonmail.com"
 
 # Files and paths
-LOG_FILE = "log.analyse_chatgpt.v2.7.0.log"
-INPUT_FILE = "AI_exportation_bruno.delnoz_protonmail.com_conversations.json"
 ENV_DIR = ".venv_analyse"
 
 # Limits and configurations
-MAX_LOG_SIZE = 2 * 1024 * 1024  # 2 MB
 MAX_TOKENS = 31000
 MAX_WORKERS = 5
 

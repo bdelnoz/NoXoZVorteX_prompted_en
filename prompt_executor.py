@@ -9,7 +9,6 @@ Handles loading, formatting and execution of prompts via Mistral API
 import os
 import time
 import random
-import re
 import requests
 from typing import Dict, List, Any, Optional
 from pathlib import Path
