@@ -82,7 +82,7 @@ NEW IN v3.0:
 --target-results <dir>: Results directory (default: ./)
 
 ## API Configuration
---model / -m <name> : Model to use (default: mistral-large-latest)
+--model / -m <name> : Model to use (default: pixtral-large-latest)
 
 ═══════════════════════════════════════════════════════════════════════════════
 3. PROMPT MANAGEMENT

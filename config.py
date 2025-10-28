@@ -9,7 +9,7 @@ Contains all project constants and configurations
 import os
 
 # Metadata
-VERSION = "v2.7.0"
+VERSION = "v3.0.2"
 DATE = "2025-10-19"
 AUTHOR = "Bruno DELNOZ - bruno.delnoz@protonmail.com"
 
@@ -28,7 +28,7 @@ API_URL = "https://api.mistral.ai/v1/chat/completions"
 MODEL = "pixtral-large-latest"
 
 # Python Dependencies
-DEPENDANCES = ["requests", "tqdm", "tiktoken"]
+DEPENDANCES = ["requests", "tqdm", "tiktoken", "mistletoe", "anthropic", "python-dotenv"]
 
 # French and English stopwords
 STOPWORDS = {
