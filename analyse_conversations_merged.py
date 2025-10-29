@@ -148,6 +148,83 @@ def detecter_doublons(toutes_conversations: List[Dict]) -> Dict[str, Any]:
     }
 
 
+def filtrer_plus_grandes_conversations(conversations: List[Dict], max_big_conv: int) -> List[Dict]:
+    """
+    Filters to keep only the N largest conversations per AI format.
+
+    Args:
+        conversations: List of all conversations
+        max_big_conv: Number of largest conversations to keep per format
+
+    Returns:
+        List of filtered conversations
+    """
+    if max_big_conv <= 0:
+        return conversations
+
+    # Group by format
+    conversations_par_format = {}
+    for conv in conversations:
+        format_conv = conv.get('_format', 'unknown')
+        if format_conv not in conversations_par_format:
+            conversations_par_format[format_conv] = []
+        conversations_par_format[format_conv].append(conv)
+
+    # For each format, calculate size and keep the N largest
+    conversations_filtrees = []
+
+    print(f"\n🔍 Filtering: Keeping {max_big_conv} largest conversation(s) per AI format...")
+    ecrire_log_local(f"Filtering --max-big-conv: {max_big_conv} per format", "INFO")
+
+    for format_conv, convs in conversations_par_format.items():
+        # Extract messages and calculate size for each conversation
+        conversations_avec_taille = []
+
+        for conv in convs:
+            messages = extraire_messages(conv, format_conv)
+            if not messages:
+                continue
+
+            # Calculate total size (number of characters)
+            taille_totale = sum(len(msg) for msg in messages)
+
+            conversations_avec_taille.append({
+                'conversation': conv,
+                'messages': messages,
+                'taille': taille_totale,
+                'nb_messages': len(messages)
+            })
+
+        # Sort by size (descending) and keep top N
+        conversations_avec_taille.sort(key=lambda x: x['taille'], reverse=True)
+        top_n = conversations_avec_taille[:max_big_conv]
+
+        # Add selected conversations
+        for item in top_n:
+            conversations_filtrees.append(item['conversation'])
+
+        # Log statistics
+        if top_n:
+            print(f"   {format_conv.upper()}: {len(top_n)} conversation(s) selected")
+            ecrire_log_local(
+                f"{format_conv.upper()}: Selected {len(top_n)}/{len(conversations_avec_taille)} conversations",
+                "INFO"
+            )
+
+            for idx, item in enumerate(top_n, 1):
+                titre = item['conversation'].get('title', item['conversation'].get('name', 'Untitled'))
+                ecrire_log_local(
+                    f"  [{idx}] {titre} - {item['taille']:,} chars, {item['nb_messages']} messages",
+                    "INFO"
+                )
+
+    print(f"   Total: {len(conversations_filtrees)} conversation(s) after filtering\n")
+    ecrire_log_local(f"Total after --max-big-conv: {len(conversations_filtrees)}", "INFO")
+
+    return conversations_filtrees
+
+
+
 def charger_fichiers(fichiers_a_traiter: List[str], format_source: str) -> tuple:
     """Loads and analyzes JSON files."""
     toutes_conversations = []
@@ -454,6 +531,7 @@ def main() -> None:
     parser.add_argument('--only-split', action='store_true', default=False)
     parser.add_argument('--not-split', action='store_true', default=False)
     parser.add_argument('--cnbr', type=int)
+    parser.add_argument('--max-big-conv', type=int, help='Keep only N largest conversations per AI format')
     parser.add_argument('--fichier', '-F', type=str, nargs='*', default=[])
     parser.add_argument('--model', '-m', type=str, default=MODEL)
     parser.add_argument('--workers', '-w', type=int, default=MAX_WORKERS)
@@ -670,6 +748,15 @@ def main() -> None:
     toutes_conversations = rapport_doublons['conversations_uniques']
     print()
 
+    # Apply --max-big-conv filter if requested
+    if args.max_big_conv:
+        toutes_conversations = filtrer_plus_grandes_conversations(toutes_conversations, args.max_big_conv)
+
+        if not toutes_conversations:
+            print("❌ No conversations after --max-big-conv filtering.")
+            ecrire_log_local("No conversations after --max-big-conv filtering", "ERROR")
+            return
+
     # Message extraction and splitting
     print("🔍 Extracting messages...")
     ecrire_log_local("Extracting messages...", "INFO")
@@ -730,11 +817,8 @@ def main() -> None:
         )
         ecrire_log_local(f"Executor initialized: {args.model}", "INFO")
     else:
-        # Simulation mode: create dummy executor
-        class SimulateExecutor:
-            def __init__(self):
-                self.model = args.model
-        executor = SimulateExecutor()
+        # Simulation mode: pas besoin d'executor, géré dans process_conversation_with_prompt
+        executor = None
         ecrire_log_local("Simulation mode activated", "INFO")
 
     # Parallel execution

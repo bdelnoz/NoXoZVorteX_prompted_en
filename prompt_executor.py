@@ -317,12 +317,23 @@ def process_conversation_with_prompt(
     if not simulate:
         time.sleep(delay)
 
-    # Execute prompt
-    result = executor.execute_prompt(
-        user_prompt,
-        system_prompt=system_prompt,
-        simulate=simulate
-    )
+    # Execute prompt - FIX FOR SIMULATE MODE
+    if simulate:
+        # En mode simulation, on crée directement un résultat simulé
+        time.sleep(random.uniform(0.05, 0.15))  # Petit délai pour réalisme
+        result = {
+            'success': True,
+            'response': f'[SIMULATION] Security analysis of "{titre}" completed successfully.\n\nThis is a simulated response. No API call was made.',
+            'model': 'simulated',
+            'tokens_used': {}
+        }
+    else:
+        # En mode normal, on utilise l'executor
+        result = executor.execute_prompt(
+            user_prompt,
+            system_prompt=system_prompt,
+            simulate=False
+        )
 
     return {
         **base_result,

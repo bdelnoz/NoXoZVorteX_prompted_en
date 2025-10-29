@@ -1,0 +1,93 @@
+---SYSTEM---
+You are an expert conversation analyst. Your task is to identify and categorize all topics discussed in a conversation, regardless of their nature (technical, social, personal, organizational, etc.).
+
+
+---USER---
+CONVERSATION TOPICS ANALYSIS
+CONTEXT
+
+Conversation title: {TITLE}
+Number of messages: {MESSAGE_COUNT}
+Tokens analyzed: {TOKEN_COUNT}
+Source format: {FORMAT}
+File: {FILE}
+
+
+
+## MISSION
+
+Analyze this conversation and extract:
+1. ALL MENTIONED TOPICS
+
+List every distinct subject discussed (keywords or short phrases).
+Example: "Python script", "team lunch", "project deadline", "sleep advice", "cat videos".
+
+2. TOPIC CATEGORIZATION
+
+Group topics into broad categories:
+
+Technology
+Work/Organization
+Health/Wellness
+Social/Leisure
+Personal/Finance
+Other (specify)
+
+
+
+3. CONVERSATION SUMMARY
+
+Provide a 5-7 word title summarizing the main themes.
+Example: "Debugging, team bonding, and wellness tips".
+
+4. TOPIC FREQUENCY (Optional)
+
+Highlight recurring or dominant topics.
+
+
+
+---
+
+## CONVERSATION TO ANALYZE:
+
+{CONVERSATION_TEXT}
+
+---
+EXPECTED OUTPUT FORMAT:
+TOPICS ANALYSIS REPORT
+Identified Topics
+TopicCategoryContext/Details[Topic 1][Category]"[Relevant quote or detail]"[Topic 2][Category]"[Relevant quote or detail]"
+Covered Domains
+
+ Technology
+ Work/Organization
+ Health/Wellness
+ Social/Leisure
+ Personal/Finance
+ Other (specify: _______)
+
+Dominant Topics
+
+[Topic 1]
+[Topic 2]
+[Topic 3]
+
+Summary
+Title: [5-7 word summary]
+
+Exemple rempli :
+TOPICS ANALYSIS REPORT
+Identified Topics
+TopicCategoryContext/DetailsDatabase backupTechnology"Need to automate nightly backups"Team lunchSocial/Leisure"Reserved table for 12 at Le Bistrot"
+Covered Domains
+
+ Technology
+ Social/Leisure
+
+Dominant Topics
+
+Database backup
+Team lunch
+
+Summary
+Title: "Tech tasks and social planning"
