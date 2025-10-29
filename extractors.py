@@ -4,6 +4,7 @@
 """
 Message extraction module
 Handles message extraction from different formats (ChatGPT, LeChat, Claude)
+CORRECTED VERSION - Better Claude handling
 """
 
 from typing import List, Dict, Any
@@ -15,16 +16,25 @@ def detecter_format_json(data: Any, fichier: str) -> str:
         if isinstance(data, list):
             if len(data) > 0 and isinstance(data[0], dict):
                 premier = data[0]
-                if 'mapping' in premier and 'title' in premier:
-                    return 'chatgpt'
-                if 'role' in premier and 'content' in premier:
-                    return 'lechat'
-                if 'uuid' in premier and 'chat_messages' in premier:
+
+                # Claude format detection (improved)
+                if 'uuid' in premier and ('chat_messages' in premier or 'name' in premier):
                     return 'claude'
 
+                # ChatGPT format
+                if 'mapping' in premier and 'title' in premier:
+                    return 'chatgpt'
+
+                # LeChat format
+                if 'role' in premier and 'content' in premier:
+                    return 'lechat'
+
         if isinstance(data, dict):
+            # LeChat dict format
             if 'messages' in data or 'exchanges' in data:
                 return 'lechat'
+
+            # Claude dict format
             if 'uuid' in data and 'chat_messages' in data:
                 return 'claude'
 
@@ -145,18 +155,24 @@ def extraire_messages_lechat(conversation: Dict[str, Any]) -> List[str]:
 
 
 def extraire_messages_claude(conversation: Dict[str, Any]) -> List[str]:
-    """Extracts messages from a Claude conversation."""
+    """Extracts messages from a Claude conversation - CORRECTED VERSION."""
     messages = []
+
+    # Get chat_messages array
     chat_messages = conversation.get("chat_messages", [])
 
     if not isinstance(chat_messages, list):
         return messages
 
+    # Extract each message
     for msg in chat_messages:
         if not isinstance(msg, dict):
             continue
+
         sender = msg.get("sender", "")
         text = msg.get("text", "")
+
+        # Accept both "human" and "assistant" as valid senders
         if sender in ["human", "assistant"] and isinstance(text, str) and text.strip():
             messages.append(text.strip())
 

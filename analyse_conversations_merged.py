@@ -549,6 +549,9 @@ def main() -> None:
     parser.add_argument('--target-logs', type=str, default='./')
     parser.add_argument('--target-results', type=str, default='./')
 
+    # New argiuments for claude
+    parser.add_argument('--no-dedup', action='store_true', help='Disable duplicate detection')
+
     args = parser.parse_args()
 
     # Handle simple commands
@@ -725,28 +728,50 @@ def main() -> None:
 
     ecrire_log_local(f"Total conversations loaded: {len(toutes_conversations)}", "INFO")
 
+    # # Duplicate detection
+    # print("🔍 Detecting duplicates...")
+    # ecrire_log_local("Detecting duplicates...", "INFO")
+    # rapport_doublons = detecter_doublons(toutes_conversations)
+    #
+    # if rapport_doublons['nb_doublons'] > 0:
+    #     print(f"⚠️  {rapport_doublons['nb_doublons']} duplicate(s) detected and excluded")
+    #     ecrire_log_local(f"Duplicates detected: {rapport_doublons['nb_doublons']}", "WARNING")
+    #
+    #     # Log duplicate details
+    #     for doublon in rapport_doublons['doublons']:
+    #         ecrire_log_local(
+    #             f"  Duplicate: '{doublon['doublon']['titre']}' ({doublon['doublon']['fichier']}) "
+    #             f"= '{doublon['original']['titre']}' ({doublon['original']['fichier']})",
+    #             "WARNING"
+    #         )
+    # else:
+    #     print("✅ No duplicates detected")
+    #     ecrire_log_local("No duplicates detected", "INFO")
+    #
+    # toutes_conversations = rapport_doublons['conversations_uniques']
+    # print()
+
     # Duplicate detection
-    print("🔍 Detecting duplicates...")
-    ecrire_log_local("Detecting duplicates...", "INFO")
-    rapport_doublons = detecter_doublons(toutes_conversations)
-
-    if rapport_doublons['nb_doublons'] > 0:
-        print(f"⚠️  {rapport_doublons['nb_doublons']} duplicate(s) detected and excluded")
-        ecrire_log_local(f"Duplicates detected: {rapport_doublons['nb_doublons']}", "WARNING")
-
-        # Log duplicate details
-        for doublon in rapport_doublons['doublons']:
-            ecrire_log_local(
-                f"  Duplicate: '{doublon['doublon']['titre']}' ({doublon['doublon']['fichier']}) "
-                f"= '{doublon['original']['titre']}' ({doublon['original']['fichier']})",
-                "WARNING"
-            )
+    if not args.no_dedup:
+        print("🔍 Detecting duplicates...")
+        ecrire_log_local("Detecting duplicates...", "INFO")
+        rapport_doublons = detecter_doublons(toutes_conversations)
+        if rapport_doublons['nb_doublons'] > 0:
+            print(f"⚠️  {rapport_doublons['nb_doublons']} duplicate(s) detected and excluded")
+            ecrire_log_local(f"Duplicates detected: {rapport_doublons['nb_doublons']}", "WARNING")
+            for doublon in rapport_doublons['doublons']:
+                ecrire_log_local(
+                    f"  Duplicate: '{doublon['doublon']['titre']}' ({doublon['doublon']['fichier']}) "
+                    f"= '{doublon['original']['titre']}' ({doublon['original']['fichier']})",
+                    "WARNING"
+                )
+            toutes_conversations = rapport_doublons['conversations_uniques']  # Mise à jour si déduplication
+        else:
+            print("✅ No duplicates detected")
+            ecrire_log_local("No duplicates detected", "INFO")
     else:
-        print("✅ No duplicates detected")
-        ecrire_log_local("No duplicates detected", "INFO")
-
-    toutes_conversations = rapport_doublons['conversations_uniques']
-    print()
+        print("⚠️  Duplicate detection DISABLED (--no-dedup) – All files will be processed, including potential duplicates")
+        ecrire_log_local("Duplicate detection disabled by user – All files will be processed, including potential duplicates", "INFO")
 
     # Apply --max-big-conv filter if requested
     if args.max_big_conv:

@@ -1,3 +1,6 @@
+# cmd git.sh
+gitadd.sh
+
 # Python cache
 __pycache__/
 *.py[cod]
@@ -16,6 +19,9 @@ alljson/
 data/
 resultat_*.csv
 resultat_*.txt
+results_*.md
+files_report_*.txt
+log.prompt_executor.*.log
 
 # IDE / OS files
 *.swp

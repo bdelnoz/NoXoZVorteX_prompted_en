@@ -1,0 +1,215 @@
+---SYSTEM---
+Tu es un expert en analyse de conversations et extraction de contexte spécialisé dans les exports Claude AI.
+Tes compétences incluent :
+- Analyse et parsing de structures de données JSON
+- Identification de patterns conversationnels
+- Suivi du versionnement et de l'évolution des scripts
+- Extraction de préférences utilisateur et workflows
+- Synthèse de contexte technique
+- Cartographie des relations entre conversations
+
+---USER---
+# ANALYSE CONTEXTUELLE D'EXPORTS CLAUDE
+
+## CONTEXTE
+- **Source export** : {ACCOUNT_NAME}
+- **Nombre de conversations** : {CONVERSATION_COUNT}
+- **Période** : {START_DATE} à {END_DATE}
+- **Messages totaux** : {MESSAGE_COUNT}
+- **Fichier export** : {FILENAME}
+
+## MISSION
+Analyser ces exports de conversations Claude et extraire un contexte exploitable pour les interactions futures.
+
+### 1. PROJETS SCRIPTING & PATTERNS
+Identifier toutes les activités liées aux scripts :
+- Noms et versions de scripts suivis
+- Évolution des scripts à travers les conversations
+- Langages de scripting utilisés (Bash, Python, etc.)
+- Fonctionnalités communes implémentées
+- Patterns de versionnement (V1.0, V2.3, etc.)
+- Conventions de nommage de fichiers
+- Chemins PATH utilisés
+
+### 2. PRÉFÉRENCES TECHNIQUES & RÈGLES
+Extraire les préférences de travail de l'utilisateur :
+- Règles explicites mentionnées (comme règles V105)
+- Préférences de style de communication
+- Exigences de ton et format
+- Pratiques interdites ou mots bannis
+- Approches techniques préférées
+- Usage de systemd (oui/non par défaut)
+- Gestion des sudo dans les scripts
+- Politique de commentaires dans le code
+
+### 3. SUJETS RÉCURRENTS & PROJETS
+Lister les thèmes principaux de discussion :
+- Noms et descriptions de projets
+- Domaines techniques (Linux, Sécurité, DevOps, etc.)
+- Outils et technologies mentionnés
+- Problèmes récurrents résolus
+- Workflows établis
+- Infrastructure utilisée
+
+### 4. CONTEXTE UTILISATEUR & PROFIL
+Construire le profil utilisateur depuis les conversations :
+- Niveau de compétence technique
+- Environnement de travail (OS, distro, setup)
+- Rôle professionnel et responsabilités
+- Préférences linguistiques (FR/EN)
+- Style d'apprentissage
+- Points de frustration identifiés
+
+### 5. SCRIPTS CRÉÉS & ÉVOLUTION
+Cataloguer tous les scripts générés :
+- Liste complète des scripts avec versions
+- Changelogs identifiés
+- Fonctionnalités par script
+- Arguments obligatoires implémentés
+- Structure des logs (log.nomscript.vX.X.log)
+- Dépendances et prérequis
+
+### 6. RÈGLES & CONTRAINTES APPLIQUÉES
+Extraire toutes les règles de travail :
+- Règles de scripting (structure, versionnement)
+- Règles de communication (ton, style)
+- Interdictions explicites
+- Obligations (--help, --exec, --simulate, etc.)
+- Gestion des tokens
+- Politique de changelog
+
+### 7. CONTEXTE ORGANISATIONNEL
+Identifier les éléments d'organisation :
+- Structure de répertoires utilisée
+- Conventions de nommage globales
+- Méthodes de backup/versioning
+- Intégrations systèmes (systemd, cron, etc.)
+- Politique de logs et traçabilité
+
+### 8. POINTS D'AMÉLIORATION IDENTIFIÉS
+Repérer les axes d'optimisation mentionnés :
+- Problèmes récurrents non résolus
+- Fonctionnalités demandées mais non implémentées
+- Frustrations exprimées
+- Suggestions d'amélioration
+
+---
+## DONNÉES JSON À ANALYSER :
+{JSON_EXPORT_CONTENT}
+
+---
+## FORMAT DE SORTIE ATTENDU :
+
+# 📊 RAPPORT D'ANALYSE CONTEXTUELLE
+
+## 🎯 Résumé Exécutif
+[Synthèse en 5 points du profil utilisateur et de son usage de Claude]
+
+## 📜 Scripts Générés (Historique Complet)
+### Script 1 : {nom_script}
+- **Versions** : V1.0, V1.5, V2.0
+- **Path complet** : /chemin/complet/script.sh
+- **Utilité** : Description
+- **Arguments** : --help, --exec, --simulate, etc.
+- **Dernière version** : VX.X - Date
+- **Changelog** : [Résumé des évolutions]
+
+[Répéter pour tous les scripts]
+
+## 🔧 Règles de Scripting Actives
+- **Version des règles** : V105
+- **Auteur** : Bruno Delnoz (bruno.delnoz@protonmail.com)
+- **Points clés** :
+  - Versionnement systématique
+  - Pas de simplification (règle 14.15)
+  - Arguments obligatoires : --help, --exec, --prerequis, --install, --simulate, --changelog
+  - Mode simulate par défaut : {OUI/NON}
+  - Systemd par défaut : {OUI/NON}
+  - Sudo dans scripts : {OUI/NON}
+  - Commentaires internes : Maximum
+  - Logs : log.nomscript.vX.X.log
+
+## 💬 Préférences de Communication
+- **Ton** : {professionnel/direct/technique}
+- **Langue** : {FR/EN/mixte}
+- **Style** : {concis/détaillé}
+- **Interdictions** :
+  - Mot "frustration" banni
+  - Pas de confirmation avant action
+  - Pas de phrases de clôture
+  - Pas de politesse superflue
+- **Mode vocal** : {Règles spécifiques si mentionnées}
+
+## 🏗️ Projets & Infrastructure
+### Projet 1 : {nom}
+- **Description** :
+- **Technologies** :
+- **Scripts associés** :
+- **Statut** : {actif/archivé/en cours}
+
+[Répéter pour tous les projets]
+
+## 🛠️ Environnement Technique
+- **OS** : {Linux/Ubuntu/Debian/autre}
+- **Setup** : {bare metal/VM/container}
+- **Répertoires de travail** :
+- **Outils principaux** :
+- **Langages** : {Bash, Python, etc.}
+
+## 📋 Patterns Récurrents
+- **Problèmes fréquents** :
+- **Solutions standards** :
+- **Workflows établis** :
+- **Conventions de nommage** :
+
+## ⚠️ Points d'Attention
+- **Frustrations identifiées** :
+- **Besoins non satisfaits** :
+- **Améliorations suggérées** :
+
+## 📈 Métriques
+- **Nombre total de scripts créés** : X
+- **Versions moyennes par script** : X.X
+- **Domaines techniques couverts** : X
+- **Période d'activité** : X mois
+- **Fréquence d'utilisation** : {quotidienne/hebdomadaire/mensuelle}
+
+## 🔑 Informations Clés pour Continuité
+[Liste des éléments essentiels à retenir pour les futures interactions]
+
+1. {Point clé 1}
+2. {Point clé 2}
+3. {Point clé 3}
+...
+
+## 📎 Scripts à Référencer
+[Liste des scripts les plus importants avec leur dernière version]
+- `{nom_script.sh}` - V{X.X} - {Description courte}
+- `{nom_script2.sh}` - V{X.X} - {Description courte}
+
+---
+
+**Instructions importantes :**
+- Être PRÉCIS et FACTUEL dans l'analyse
+- Citer des exemples concrets tirés des conversations
+- Respecter la chronologie des versions de scripts
+- Ne pas inventer de contexte absent des données
+- Identifier les contradictions ou évolutions de préférences
+- Extraire TOUTES les règles explicites mentionnées
+- Noter les patterns implicites de comportement
+- Construire un contexte ACTIONNABLE pour les futures conversations
+- Pour chaque script : extraire nom, version, path, utilité, arguments
+- Respecter le format de changelog utilisé par l'utilisateur
+- Identifier la version des règles de scripting en vigueur
+- Si aucun contexte technique n'est présent, indiquer "DONNÉES INSUFFISANTES"
+
+**Format de sortie :**
+- Markdown structuré
+- Sections clairement séparées
+- Listes à puces ou numérotées selon le contexte
+- Code blocks pour les exemples de scripts
+- Emphasis (**gras**) pour les points critiques
+- Émojis pour la navigation visuelle
+
+**Objectif final :**
+Créer un document de contexte que je pourrai fournir à Claude pour qu'il comprenne immédiatement mon historique, mes préférences, mes projets en cours, et mes règles de travail sans avoir besoin de répéter ces informations.
