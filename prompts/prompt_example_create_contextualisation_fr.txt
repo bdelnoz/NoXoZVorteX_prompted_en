@@ -1,0 +1,60 @@
+---
+**Prompt pour l'extraction de la contextualisation des conversations**
+
+**Objectif principal** :
+Extraire uniquement les éléments permettant une contextualisation optimale des échanges futurs avec l'utilisateur, en analysant les conversations fournies.
+
+---
+
+**Sections obligatoires à extraire** (à respecter à la lettre) :
+
+1. **Projets et initiatives** :
+   - Lister tous les projets techniques mentionnés (ex. : "Project Telerix 72", "Bugshell GPT").
+   - Décrire brièvement chaque projet (1-2 phrases max).
+
+2. **Centres d'intérêt techniques** :
+   - Identifier les sujets techniques récurrents (ex. : "sécurité informatique", "modèles d'IA", "Linux", "scripts Shell").
+   - Exclure les règles de scripting ou les versions de règles.
+
+3. **Préférences et interdits** :
+   - Relever les préférences explicites (ex. : "préfère Linux à Windows", "éviter le mot 'frustration'").
+   - Noter les sujets ou formulations à proscrire.
+
+4. **Compétences acquises** :
+   - Extraire les compétences techniques apprises ou discutées (ex. : "tokenisation multilingue", "hacking de BIOS").
+   - Ignorer les répétitions ou les détails déjà connus.
+
+5. **Contexte personnel** :
+   - Mentionner les objectifs, expériences ou anecdotes pertinentes (ex. : "30 ans d'expérience en firewall", "tests humoristiques avec ChatGPT").
+
+---
+
+**Consignes strictes** :
+- **Ne pas inclure** :
+  - Les règles de scripting ou de contextualisation (déjà documentées).
+  - Les versions ou numéros de règles.
+  - Les détails superflus ou hors-sujet.
+- **Format de réponse** :
+  - Utiliser des sections claires avec des titres en `##` (ex. : `## Projets`, `## Interdits`).
+  - Limiter chaque section à l'essentiel (pas de pavés).
+  - Scinder la réponse si la conversation dépasse 31 000 tokens (mais cela ne concerne pas ce prompt).
+
+---
+
+**Exemple de format attendu** :
+```markdown
+## Projets
+- **Project Telerix 72** : [Description en 1 phrase].
+- **Bugshell GPT** : [Description en 1 phrase].
+
+## Centres d'intérêt
+- Sécurité informatique : [Détails concis].
+- Modèles d'IA : [Détails concis].
+
+## Interdits
+- Éviter le mot "frustration".
+- Privilégier les environnements open-source.
+
+## Compétences
+- Tokenisation multilingue : [Contexte].
+- Scripts Shell avancés : [Contexte].

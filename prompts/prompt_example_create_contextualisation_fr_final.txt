@@ -1,0 +1,33 @@
+---
+# **Extraction de Contexte pour IA**
+
+**Consignes :**
+1. Analyser uniquement la conversation ci-dessous.
+2. Extraire uniquement les informations explicitement mentionnées.
+3. Utiliser les termes exacts de la conversation.
+4. Format de sortie :
+
+```markdown
+## Contexte - [ID_Conversation]
+
+### Projets
+- **[Nom Exact]** : "[Description Exacte]" (Mentions: [Nombre])
+
+### Sujets Clés
+- [Sujet Exact 1]
+- [Sujet Exact 2]
+
+### Règles
+- **Préférences** : [Liste Exacte]
+- **Interdits** : [Liste Exacte]
+
+### Extraits Bruts
+- "[Phrase Clé Exacte 1]"
+- "[Phrase Clé Exacte 2]"
+```
+
+---
+
+### Conversation à Analyser
+*(Coller ici le texte brut d'une seule conversation)*
+---

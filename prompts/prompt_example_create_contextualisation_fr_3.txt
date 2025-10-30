@@ -1,0 +1,54 @@
+---
+**Prompt pour extraction de contextualisation (version optimisée)**
+
+**Objectif** :
+Extraire les éléments essentiels pour contextualiser les échanges futurs, en **fusionnant les informations redondantes** et en **excluant les conversations sans titre**.
+
+---
+
+**Sections à extraire (format fusionné)** :
+1. **Projets en cours** :
+   - Lister chaque projet **une seule fois**, avec le nombre de conversations où il est mentionné.
+   - Exemple :
+     ```markdown
+     - **Bugshell GPT** : Détection de bugs en Shell (mentionné dans 12 conversations).
+     ```
+
+2. **Sujets clés** :
+   - Regrouper les sujets similaires (ex. : "Sécurité informatique" + "Hacking BIOS").
+   - Exemple :
+     ```markdown
+     - **Sécurité informatique** : Hacking BIOS, tests d’intrusion, hardening (mentionné dans 8 conversations).
+     ```
+
+3. **Préférences et interdits** :
+   - Lister une seule fois chaque préférence/interdit, même s’il revient souvent.
+
+4. **Contexte global** :
+   - Résumer l’objectif et l’approche en **1 phrase synthétique**.
+
+---
+**À exclure absolument** :
+- Les conversations sans titre ("Untitled").
+- Les répétitions de projets/sujets déjà mentionnés.
+
+---
+**Format de sortie attendu** :
+```markdown
+## Contextualisation globale pour échanges avec l’IA
+
+### Projets en cours (fusionnés)
+- **Bugshell GPT** : Détection de bugs en Shell (12 mentions).
+- **AnalyseBiais** : Analyse des biais linguistiques dans les LLMs (8 mentions).
+
+### Sujets clés (fusionnés)
+- **Sécurité informatique** : Hacking BIOS, tests d’intrusion (15 mentions).
+- **Modèles d’IA** : Tokenisation multilingue, optimisation de prompts (10 mentions).
+
+### Préférences
+- **À privilégier** : Exemples en Shell/Python, solutions open-source.
+- **À éviter** : "Frustration", sujets politiques, solutions Windows.
+
+### Contexte global
+- **Objectif** : Postuler dans l’IA avec un focus sur la sécurité et la diversité linguistique.
+- **Approche** : Tests disruptifs et brainstorming créatif.

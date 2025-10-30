@@ -1,0 +1,161 @@
+---
+# **Prompt pour Extraction et Fusion de Contextualisation**
+*(Version 4 – Anti-doublons & Structuration Avancée – 30/10/2025)*
+
+---
+
+## **1. Objectif Principal**
+Extraire, **fusionner** et structurer les éléments clés de **335 conversations** (40 Mo), en :
+- **Élimantin les doublons** via une détection sémantique (seuil de similarité : **85%**).
+- **Excluant** les conversations sans titre, génériques ou hors sujet.
+- **Priorisant** les informations uniques, les sources les plus récentes et les descriptions les plus complètes.
+- **Générant un rapport clair** pour une intégration directe dans un document DocX.
+
+---
+
+## **2. Sections à Extraire et Fusionner**
+
+### **2.1. Projets en cours**
+- **Format attendu** :
+  ```markdown
+  - **[Nom du projet]** : [Description synthétique et précise] (mentionné dans **X** conversations, sources : [Liste des comptes/sources]).
+  ```
+- **Règles de fusion** :
+  - Si un projet est mentionné dans plusieurs conversations, **ne conserver qu’une seule entrée** et lister toutes les sources.
+  - **Exemple** :
+    ```markdown
+    - **Bugshell GPT** : Détection automatisée de bugs en Shell via analyse statique et tests dynamiques (12 mentions, sources : ChatGPT_Compte3, ChatGPT_Compte7, Claude_ProjetAlpha).
+    ```
+
+### **2.2. Sujets Clés**
+- **Fusionner** les sujets sémantiquement proches (ex: "Sécurité informatique" + "Hacking BIOS" → **"Sécurité informatique : Hacking BIOS, tests d’intrusion, analyse de vulnérabilités"**).
+- **Seuil de fusion** : Deux sujets sont fusionnés si leur similarité sémantique est **≥ 70%** (utiliser TF-IDF ou embeddings via `sentence-transformers`).
+- **Format** :
+  ```markdown
+  - **Sécurité informatique** :
+    - Hacking BIOS (5 mentions, sources : ChatGPT_Compte2, Claude_Beta).
+    - Tests d’intrusion (8 mentions, sources : ChatGPT_Compte5, Claude_Gamma).
+    - *Fusionné avec "Analyse de vulnérabilités" (similarité : 88%).*
+  ```
+
+### **2.3. Préférences et Interdits**
+- **Lister chaque élément une seule fois**, même s’il revient souvent.
+- **Ajouter** :
+  - La fréquence d’apparition (ex: "À éviter : 'Frustration' (23 occurrences)").
+  - Les sources associées et un exemple concret si disponible.
+- **Exemple** :
+  ```markdown
+  - **À privilégier** :
+    - Exemples en Shell/Python (32 mentions, ex: script de détection de bugs en annexe).
+  - **À éviter** :
+    - Termes : "Frustration", "problème" (23 mentions, sources : ChatGPT_Compte1, Claude_Delta).
+    - Sujets : Politique, solutions propriétaires Windows (15 mentions).
+  ```
+
+### **2.4. Contexte Global**
+- **Résumé en 1 phrase** + **3 mots-clés** maximaux.
+- **Exemple** :
+  ```markdown
+  "Centralisation des projets techniques (Shell, IA, sécurité) pour optimiser les échanges et éviter les redondances, avec une préférence marquée pour les solutions open-source et les exemples pratiques."
+  **Mots-clés** : #Automatisation #Sécurité #OpenSource
+  ```
+
+---
+
+## **3. Gestion Technique des Doublons**
+
+### **3.1. Détection**
+- **Méthode** :
+  - Utiliser un **algorithme de similarité sémantique** (cosine similarity sur embeddings) pour comparer :
+    - Les titres de projets/sujets.
+    - Les descriptions (seuil de doublon : **≥ 85%**).
+  - **Outils recommandés** :
+    - `sentence-transformers/all-MiniLM-L6-v2` pour les embeddings.
+    - `scikit-learn` pour le calcul de similarité.
+
+### **3.2. Fusion et Résolution des Conflits**
+- **Conserver** :
+  - La description la **plus complète**.
+  - La source la **plus récente** en cas de conflit.
+- **Métadonnées obligatoires** :
+  - Liste des sources fusionnées.
+  - Score de similarité (ex: "Fusionné à 92% avec [SourceB]").
+- **Exemple de sortie** :
+  ```markdown
+  - **Modèles d’IA** :
+    - Tokenisation multilingue (10 mentions, sources : Claude_Epsilon, ChatGPT_Compte4).
+    - Optimisation de prompts (5 mentions, source : Claude_Zeta).
+    - *Fusionné avec "Gestion des tokens" (similarité : 91%).*
+  ```
+
+### **3.3. Rapport de Fusion**
+- **Générer un tableau récapitulatif** des doublons détectés et fusionnés :
+  ```markdown
+  | Élément Fusionné          | Sources Originales               | Score de Similarité |
+  |---------------------------|-----------------------------------|---------------------|
+  | Sécurité informatique     | Hacking BIOS, Tests d’intrusion   | 88%                 |
+  ```
+
+---
+
+## **4. Format de Sortie Final (Markdown pour DocX)**
+
+```markdown
+---
+# **Contextualisation Globale – [Date du jour]**
+
+## **1. Projets en cours (Fusionnés)**
+| Projet               | Description                                      | Mentions | Sources                          |
+|----------------------|--------------------------------------------------|----------|----------------------------------|
+| Bugshell GPT         | Détection de bugs en Shell via analyse statique...| 12       | ChatGPT_Compte3, Claude_ProjetA  |
+| AnalyseBiais         | Étude des biais linguistiques dans les LLMs...    | 8        | Claude_ProjetB, ChatGPT_Compte6  |
+
+## **2. Sujets Clés (Fusionnés)**
+- **Sécurité informatique** :
+  - Hacking BIOS, tests d’intrusion (15 mentions, sources : [Liste]).
+  - *Fusionné avec "Analyse de vulnérabilités" (similarité : 91%).*
+- **Modèles d’IA** :
+  - Tokenisation, optimisation de prompts (10 mentions, sources : [Liste]).
+
+## **3. Préférences et Interdits**
+- **À privilégier** :
+  - Exemples en Shell/Python (32 mentions, ex: voir Annexe 1).
+  - Solutions open-source (28 mentions).
+- **À éviter** :
+  - Termes : "Frustration", "problème" (23 mentions).
+  - Sujets : Politique, Windows (15 mentions).
+
+## **4. Contexte Global**
+"Optimisation des échanges techniques via une **centralisation des projets et sujets**, en évitant les redondances et en privilégiant les exemples concrets et réutilisables."
+**Mots-clés** : #Shell #IA #Sécurité
+
+## **5. Annexes**
+- **Annexe 1** : Exemple de script Shell pour Bugshell GPT.
+- **Annexe 2** : Rapport détaillé des doublons fusionnés.
+```
+
+---
+
+## **5. Consignes pour l’API/Modèle**
+- **Segmenter** les 40 Mo de données en lots de **20 Mo max** pour éviter la surcharge.
+- **Exclure systématiquement** :
+  - Les conversations de moins de **30 mots**.
+  - Les conversations sans titre ("Untitled" ou équivalent).
+  - Les répétitions de phrases génériques ("Bonjour", "Merci", "D’accord").
+- **Options à activer** :
+  - `anti_duplicate=True`
+  - `merge_threshold=0.7` (pour la fusion des sujets).
+  - `output_format="markdown"`
+
+---
+
+## **6. Notes pour l’Utilisateur (Bruno)**
+- **Pour Claude** :
+  Ajouter en préambule :
+  *« Optimise ce prompt avec tes algorithmes internes de déduplication et de fusion sémantique. Privilégie les sources récentes et les descriptions techniques détaillées. »*
+- **Pour LeChat** :
+  Utiliser ce prompt **tel quel**, avec les paramètres ci-dessus.
+- **Pour la conversion DocX** :
+  - Utiliser un convertisseur Markdown→DocX (ex: Pandoc) avec le style "Tableau professionnel" pour les sections tabulaires.
+
+---

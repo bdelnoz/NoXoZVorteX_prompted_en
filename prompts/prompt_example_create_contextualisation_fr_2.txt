@@ -1,0 +1,84 @@
+---
+**Prompt pour extraction de contextualisation efficace**
+
+**Objectif** :
+Extraire les éléments qui permettent de **comprendre ton contexte, tes attentes et tes préférences** pour les échanges futurs avec une IA. Le résultat doit être **directement utilisable** pour adapter les réponses de l’IA à ton style, tes projets et tes interdits.
+
+---
+
+**Sections à extraire (avec exemples concrets)** :
+
+1. **Projets en cours ou récents** :
+   - **Pourquoi ?** : Permet à l’IA de faire référence à tes projets actuels.
+   - **Format** :
+     ```markdown
+     - **Nom du projet** : [1 phrase décrivant l’objectif ou le domaine].
+     ```
+   - **Exemple** :
+     ```markdown
+     - **Bugshell GPT** : Projet de détection et correction de bugs dans les scripts Shell, avec un focus sur l’automatisation.
+     ```
+
+2. **Sujets techniques récurrents** :
+   - **Pourquoi ?** : Permet à l’IA de prioriser ces sujets dans ses réponses.
+   - **Format** :
+     ```markdown
+     - **Sujet** : [Domaines ou compétences clés, en 2-3 mots max].
+     ```
+   - **Exemple** :
+     ```markdown
+     - **Sécurité informatique** : Hacking BIOS, tests d’intrusion, hardening.
+     - **Modèles d’IA** : Tokenisation multilingue, optimisation de prompts.
+     ```
+
+3. **Préférences et interdits** :
+   - **Pourquoi ?** : Permet à l’IA d’éviter les sujets sensibles ou d’adapter son langage.
+   - **Format** :
+     ```markdown
+     - **À privilégier** : [Exemples concrets].
+     - **À éviter** : [Mots ou sujets à proscrire].
+     ```
+   - **Exemple** :
+     ```markdown
+     - **À privilégier** : Exemples en Shell/Python, solutions open-source.
+     - **À éviter** : Mots comme "frustration", sujets politiques, solutions Windows.
+     ```
+
+4. **Contexte utile pour les échanges** :
+   - **Pourquoi ?** : Donne à l’IA des indices sur ton approche ou tes objectifs.
+   - **Format** :
+     ```markdown
+     - **Objectif actuel** : [Ex. : "Postuler dans l’IA avec un focus sur la sécurité et la diversité linguistique."].
+     - **Approche** : [Ex. : "Brainstorming créatif, tests disruptifs des IA."].
+     ```
+   - **Exemple** :
+     ```markdown
+     - **Objectif actuel** : Développer des outils pour analyser les biais linguistiques dans les LLMs.
+     - **Approche** : Tests humoristiques ou extrêmes pour évaluer la robustesse des IA.
+     ```
+
+---
+**À exclure absolument** :
+- Les détails techniques superflus (ex. : "comment fonctionne la tokenisation").
+- Les règles de scripting ou versions déjà connues.
+- Les conversations sans titre ("Untitled").
+
+---
+**Format de sortie attendu** :
+```markdown
+## [Titre de la conversation]
+
+### Projets en cours
+- **Bugshell GPT** : Détection de bugs en Shell.
+
+### Sujets clés
+- **Sécurité informatique** : Hacking BIOS, tests intrusion.
+- **Modèles d’IA** : Tokenisation multilingue.
+
+### Préférences
+- **À privilégier** : Shell, Linux, solutions open-source.
+- **À éviter** : "Frustration", politique, Windows.
+
+### Contexte
+- **Objectif** : Postuler dans l’IA (sécurité, diversité linguistique).
+- **Approche** : <followup encodedFollowup="%7B%22id%22%3A%22eebae907-92e7-4b9a-8407-db26462c1b7a%22%2C%22snippet%22%3A%22Tests%20disruptifs%2C%20brainstorming%20cr%C3%A9atif%22%2C%22question%22%3A%22En%20quoi%20consistent%20exactement%20les%20tests%20disruptifs%20pour%20%C3%A9valuer%20une%20IA%2C%20et%20comment%20les%20appliquer%20%3F%22%7D" />.
