@@ -4,7 +4,7 @@
 """
 Script name: analyse_conversations_merged.py
 Author: Bruno DELNOZ - bruno.delnoz@protonmail.com
-Version: v3.0.2 - LOG AND REPORT FIXES
+Version: v3.0.2 - LOG AND REPORT FIXES + CLAUDE TITLE FIX
 Date: 2025-10-28
 
 Main script - Custom prompt execution engine
@@ -224,7 +224,6 @@ def filtrer_plus_grandes_conversations(conversations: List[Dict], max_big_conv: 
     return conversations_filtrees
 
 
-
 def charger_fichiers(fichiers_a_traiter: List[str], format_source: str) -> tuple:
     """Loads and analyzes JSON files."""
     toutes_conversations = []
@@ -311,10 +310,15 @@ def charger_fichiers(fichiers_a_traiter: List[str], format_source: str) -> tuple
                     for conv in data:
                         conv['_source_file'] = os.path.basename(fichier)
                         conv['_format'] = 'claude'
-                        if 'title' not in conv and 'name' not in conv:
-                            conv['title'] = f"Claude - {conv.get('uuid', 'Untitled')[:8]}"
 
-                        titre = conv.get('title', conv.get('name', 'Untitled'))
+                        # FIX: Normalize title field
+                        if 'title' not in conv:
+                            if 'name' in conv:
+                                conv['title'] = conv['name']
+                            else:
+                                conv['title'] = f"Claude - {conv.get('uuid', 'Untitled')[:8]}"
+
+                        titre = conv['title']
                         titres_conversations.append(titre)
 
                         # Count messages
@@ -331,10 +335,15 @@ def charger_fichiers(fichiers_a_traiter: List[str], format_source: str) -> tuple
                     nb_conv = 1
                     data['_source_file'] = os.path.basename(fichier)
                     data['_format'] = 'claude'
-                    if 'title' not in data and 'name' not in data:
-                        data['title'] = f"Claude - {data.get('uuid', 'Untitled')[:8]}"
 
-                    titre = data.get('title', data.get('name', 'Untitled'))
+                    # FIX: Normalize title field
+                    if 'title' not in data:
+                        if 'name' in data:
+                            data['title'] = data['name']
+                        else:
+                            data['title'] = f"Claude - {data.get('uuid', 'Untitled')[:8]}"
+
+                    titre = data['title']
                     titres_conversations.append(titre)
                     chat_messages = data.get('chat_messages', [])
                     nb_messages_total = len(chat_messages)
@@ -549,9 +558,6 @@ def main() -> None:
     parser.add_argument('--target-logs', type=str, default='./')
     parser.add_argument('--target-results', type=str, default='./')
 
-    # New argiuments for claude
-    parser.add_argument('--no-dedup', action='store_true', help='Disable duplicate detection')
-
     args = parser.parse_args()
 
     # Handle simple commands
@@ -728,50 +734,28 @@ def main() -> None:
 
     ecrire_log_local(f"Total conversations loaded: {len(toutes_conversations)}", "INFO")
 
-    # # Duplicate detection
-    # print("🔍 Detecting duplicates...")
-    # ecrire_log_local("Detecting duplicates...", "INFO")
-    # rapport_doublons = detecter_doublons(toutes_conversations)
-    #
-    # if rapport_doublons['nb_doublons'] > 0:
-    #     print(f"⚠️  {rapport_doublons['nb_doublons']} duplicate(s) detected and excluded")
-    #     ecrire_log_local(f"Duplicates detected: {rapport_doublons['nb_doublons']}", "WARNING")
-    #
-    #     # Log duplicate details
-    #     for doublon in rapport_doublons['doublons']:
-    #         ecrire_log_local(
-    #             f"  Duplicate: '{doublon['doublon']['titre']}' ({doublon['doublon']['fichier']}) "
-    #             f"= '{doublon['original']['titre']}' ({doublon['original']['fichier']})",
-    #             "WARNING"
-    #         )
-    # else:
-    #     print("✅ No duplicates detected")
-    #     ecrire_log_local("No duplicates detected", "INFO")
-    #
-    # toutes_conversations = rapport_doublons['conversations_uniques']
-    # print()
-
     # Duplicate detection
-    if not args.no_dedup:
-        print("🔍 Detecting duplicates...")
-        ecrire_log_local("Detecting duplicates...", "INFO")
-        rapport_doublons = detecter_doublons(toutes_conversations)
-        if rapport_doublons['nb_doublons'] > 0:
-            print(f"⚠️  {rapport_doublons['nb_doublons']} duplicate(s) detected and excluded")
-            ecrire_log_local(f"Duplicates detected: {rapport_doublons['nb_doublons']}", "WARNING")
-            for doublon in rapport_doublons['doublons']:
-                ecrire_log_local(
-                    f"  Duplicate: '{doublon['doublon']['titre']}' ({doublon['doublon']['fichier']}) "
-                    f"= '{doublon['original']['titre']}' ({doublon['original']['fichier']})",
-                    "WARNING"
-                )
-            toutes_conversations = rapport_doublons['conversations_uniques']  # Mise à jour si déduplication
-        else:
-            print("✅ No duplicates detected")
-            ecrire_log_local("No duplicates detected", "INFO")
+    print("🔍 Detecting duplicates...")
+    ecrire_log_local("Detecting duplicates...", "INFO")
+    rapport_doublons = detecter_doublons(toutes_conversations)
+
+    if rapport_doublons['nb_doublons'] > 0:
+        print(f"⚠️  {rapport_doublons['nb_doublons']} duplicate(s) detected and excluded")
+        ecrire_log_local(f"Duplicates detected: {rapport_doublons['nb_doublons']}", "WARNING")
+
+        # Log duplicate details
+        for doublon in rapport_doublons['doublons']:
+            ecrire_log_local(
+                f"  Duplicate: '{doublon['doublon']['titre']}' ({doublon['doublon']['fichier']}) "
+                f"= '{doublon['original']['titre']}' ({doublon['original']['fichier']})",
+                "WARNING"
+            )
     else:
-        print("⚠️  Duplicate detection DISABLED (--no-dedup) – All files will be processed, including potential duplicates")
-        ecrire_log_local("Duplicate detection disabled by user – All files will be processed, including potential duplicates", "INFO")
+        print("✅ No duplicates detected")
+        ecrire_log_local("No duplicates detected", "INFO")
+
+    toutes_conversations = rapport_doublons['conversations_uniques']
+    print()
 
     # Apply --max-big-conv filter if requested
     if args.max_big_conv:
@@ -842,7 +826,6 @@ def main() -> None:
         )
         ecrire_log_local(f"Executor initialized: {args.model}", "INFO")
     else:
-        # Simulation mode: pas besoin d'executor, géré dans process_conversation_with_prompt
         executor = None
         ecrire_log_local("Simulation mode activated", "INFO")
 
@@ -872,7 +855,7 @@ def main() -> None:
                 args.simulate,
                 args.delay
             )
-            futures[future] = conv.get('titre', 'Untitled')
+            futures[future] = conv.get('title', 'Untitled')
 
         # Progress bar
         if tqdm:

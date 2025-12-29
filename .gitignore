@@ -42,3 +42,6 @@ OLD_VS/
 scripts_other
 doc
 results
+
+# Logs de création du repo - ajoutés automatiquement
+creation_log/
