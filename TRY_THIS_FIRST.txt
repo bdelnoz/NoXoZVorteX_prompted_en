@@ -1,11 +1,188 @@
-./analyse_conversations_merged.py --exec --recursive --aiall --fichier ./data_example/  --prompt-file example_security_prompt --target-logs ./logs_example/ --target-results ./results_example/ --format markdown
+╔═══════════════════════════════════════════════════════════════════════════════╗
+║                         QUICK START GUIDE                                      ║
+║                    NoXoZVorteX_prompted v3.0.2                                ║
+╚═══════════════════════════════════════════════════════════════════════════════╝
 
-then create
-./prompt/prompt_YOUR_PROMPT_FILE
-./data/your_exported_conversation_json
+🚀 TRY THIS FIRST!
 
-and execute your own analyse :
-./analyse_conversations_merged.py --exec --recursive --aiall --fichier ./data/  --prompt-file YOUR_PROMPT_FILE --target-logs ./logs/ --target-results ./results/ --format markdown
+This guide will help you run your first analysis in less than 5 minutes.
 
+═══════════════════════════════════════════════════════════════════════════════
+📋 STEP 1: INSTALLATION
+═══════════════════════════════════════════════════════════════════════════════
 
-have fun ! ;-)
+Run the automatic installation (creates virtual environment and installs dependencies):
+
+    ./analyse_conversations_merged.py --install
+
+═══════════════════════════════════════════════════════════════════════════════
+🔑 STEP 2: CONFIGURE API KEY
+═══════════════════════════════════════════════════════════════════════════════
+
+Set your Mistral API key:
+
+    export MISTRAL_API_KEY='your_api_key_here'
+
+💡 To get a Mistral API key: https://console.mistral.ai/
+
+═══════════════════════════════════════════════════════════════════════════════
+✨ STEP 3: RUN THE EXAMPLE
+═══════════════════════════════════════════════════════════════════════════════
+
+Run the security analysis on the example data:
+
+./analyse_conversations_merged.py --exec --recursive --aiall \
+  --fichier ./data_example/ \
+  --prompt-file example_security_prompt \
+  --target-logs ./logs_example/ \
+  --target-results ./results_example/ \
+  --format markdown
+
+This command will:
+✅ Analyze all conversations in data_example/
+✅ Apply the security analysis prompt
+✅ Generate a detailed Markdown report
+✅ Save logs in logs_example/
+✅ Save results in results_example/
+
+═══════════════════════════════════════════════════════════════════════════════
+📊 STEP 4: VIEW THE RESULTS
+═══════════════════════════════════════════════════════════════════════════════
+
+Check the generated report:
+
+    cat results_example/results_example_security_prompt_*.md
+
+Or open it in your browser/editor to see the formatted Markdown.
+
+═══════════════════════════════════════════════════════════════════════════════
+🎯 NEXT STEPS: CREATE YOUR OWN ANALYSIS
+═══════════════════════════════════════════════════════════════════════════════
+
+1. EXPORT YOUR CONVERSATIONS:
+   - ChatGPT: Settings → Data Controls → Export data
+   - Claude: Settings → Export conversations
+   - LeChat/Mistral: Export your conversations as JSON
+
+2. CREATE YOUR DATA DIRECTORY:
+   
+   mkdir -p ./data
+   # Copy your exported JSON files here
+
+3. CREATE YOUR CUSTOM PROMPT:
+   
+   nano prompts/prompt_my_analysis.txt
+   
+   Example content:
+   ---SYSTEM---
+   You are an expert in [YOUR DOMAIN].
+   
+   ---USER---
+   Analyze this conversation about {TITLE}.
+   
+   Conversation:
+   {CONVERSATION_TEXT}
+   
+   Provide: [YOUR INSTRUCTIONS]
+
+4. RUN YOUR ANALYSIS:
+
+./analyse_conversations_merged.py --exec \
+  --aiall --recursive \
+  --fichier ./data/ \
+  --prompt-file my_analysis \
+  --target-logs ./logs/ \
+  --target-results ./results/ \
+  --format markdown
+
+═══════════════════════════════════════════════════════════════════════════════
+💡 USEFUL COMMANDS
+═══════════════════════════════════════════════════════════════════════════════
+
+List available prompts:
+    ./analyse_conversations_merged.py --prompt-list
+
+Check prerequisites:
+    ./analyse_conversations_merged.py --prerequis
+
+View basic help:
+    ./analyse_conversations_merged.py --help
+
+View advanced help:
+    ./analyse_conversations_merged.py --help-adv
+
+Test without API calls (simulation mode):
+    ./analyse_conversations_merged.py --exec --simulate \
+      --prompt-file test --fichier sample.json
+
+═══════════════════════════════════════════════════════════════════════════════
+🎨 OUTPUT FORMATS
+═══════════════════════════════════════════════════════════════════════════════
+
+You can choose different output formats:
+
+--format csv       # Excel/LibreOffice compatible
+--format json      # For programmatic processing
+--format txt       # Simple readable text
+--format markdown  # GitHub-ready with table of contents (default)
+
+═══════════════════════════════════════════════════════════════════════════════
+🛡️ EXAMPLE PROMPTS PROVIDED
+═══════════════════════════════════════════════════════════════════════════════
+
+The project includes these example prompts:
+
+1. example_security_prompt
+   → Comprehensive security analysis of technical conversations
+   
+2. example_child_safety_prompt
+   → Content safety assessment for child-related content
+   
+3. example_full_security_analysis_prompt
+   → In-depth security audit with detailed scoring
+
+═══════════════════════════════════════════════════════════════════════════════
+📁 RECOMMENDED PROJECT STRUCTURE
+═══════════════════════════════════════════════════════════════════════════════
+
+my_project/
+├── data/                      # Your JSON exports
+│   ├── chatgpt/
+│   ├── claude/
+│   └── lechat/
+├── prompts/                   # Your custom prompts
+│   ├── prompt_security.txt
+│   └── prompt_summary.txt
+├── logs/                      # Logs (auto-created)
+└── results/                   # Results (auto-created)
+
+═══════════════════════════════════════════════════════════════════════════════
+❓ TROUBLESHOOTING
+═══════════════════════════════════════════════════════════════════════════════
+
+Problem: "No module named 'X'"
+→ Solution: ./analyse_conversations_merged.py --install
+
+Problem: "Prompt not found"
+→ Solution: ./analyse_conversations_merged.py --prompt-list
+
+Problem: "API Rate Limit (429)"
+→ Solution: Reduce workers (--workers 3) and increase delay (--delay 1.5)
+
+Problem: Permission denied
+→ Solution: Use relative paths (./logs instead of /absolute/path)
+
+═══════════════════════════════════════════════════════════════════════════════
+📚 MORE INFORMATION
+═══════════════════════════════════════════════════════════════════════════════
+
+- Full documentation: README.md
+- Advanced help: ./analyse_conversations_merged.py --help-adv
+- Changelog: ./analyse_conversations_merged.py --changelog
+- Author: Bruno DELNOZ (bruno.delnoz@protonmail.com)
+
+═══════════════════════════════════════════════════════════════════════════════
+
+🎉 HAVE FUN ANALYZING YOUR CONVERSATIONS! 🎉
+
+═══════════════════════════════════════════════════════════════════════════════

@@ -10,18 +10,18 @@
 
 ## 📋 Table of Contents
 
-- [Overview](#overview)
-- [Key Features](#key-features)
-- [Quick Start](#quick-start)
-- [Installation](#installation)
-- [Usage Examples](#usage-examples)
-- [Custom Prompts](#custom-prompts)
-- [Output Formats](#output-formats)
-- [Project Structure](#project-structure)
-- [Advanced Usage](#advanced-usage)
-- [Troubleshooting](#troubleshooting)
-- [Contributing](#contributing)
-- [License](#license)
+- [Overview](#-overview)
+- [Key Features](#-key-features)
+- [Quick Start](#-quick-start)
+- [Installation](#-installation)
+- [Usage](#-usage)
+- [Custom Prompts](#-custom-prompts)
+- [Output Formats](#-output-formats)
+- [Project Structure](#-project-structure)
+- [Usage Examples](#-usage-examples)
+- [Troubleshooting](#-troubleshooting)
+- [Contributing](#-contributing)
+- [License](#-license)
 
 ---
 
@@ -50,7 +50,7 @@ This tool allows you to **apply custom analysis prompts** to your exported AI co
 
 ### Powerful Analysis
 - 📝 **Custom prompts** via simple text files
-- 🎯 **SYSTEM/USER** prompt separation
+- 🎯 **SYSTEM/USER prompt separation**
 - 🔄 **Variable substitution** in prompts
 - 🧵 **Parallel processing** for speed
 - ✂️ **Auto-splitting** of long conversations
@@ -132,54 +132,50 @@ pip install requests tqdm tiktoken mistletoe anthropic python-dotenv
 
 ---
 
-## 📚 Usage Examples
+## 📚 Usage
 
-### Example 1: Security Analysis
-
-Analyze conversations for security vulnerabilities:
+### Main Arguments
 
 ```bash
-./analyse_conversations_merged.py --exec \
-  --aiall --fichier data/*.json \
-  --prompt-file security_analysis \
-  --format markdown \
-  --target-results ./reports/security
-```
+# Core Commands
+--help              # Display basic help
+--help-adv          # Display complete advanced help
+--exec              # Execute analysis (required)
+--install           # Install dependencies
+--prerequis         # Check prerequisites
+--changelog         # Display version history
 
-### Example 2: Content Moderation
+# Prompt Management
+--prompt-file NAME  # Use prompt from prompts/
+--prompt-list       # List all available prompts
+--prompt-text TEXT  # Use direct inline prompt
 
-Check conversations for child safety:
+# Input Formats
+--chatgpt           # Force ChatGPT format
+--lechat            # Force LeChat/Mistral format
+--claude            # Force Claude format
+--aiall / --auto    # Auto-detect format (recommended)
 
-```bash
-./analyse_conversations_merged.py --exec \
-  --recursive --aiall \
-  --fichier ./conversations/ \
-  --prompt-file child_safety_analysis \
-  --format json \
-  --workers 10
-```
+# Data Sources
+--fichier, -F       # JSON file(s) (supports *.json)
+--recursive         # Recursive search in subfolders
 
-### Example 3: Quick Summary
+# Execution Options
+--model, -m MODEL   # Mistral model (default: pixtral-large-latest)
+--workers, -w N     # Parallel workers (default: 5)
+--simulate          # Simulation mode (no API calls)
+--delay, -d SEC     # Delay between requests (default: 0.5s)
 
-Get a quick summary of conversations:
+# File Organization
+--target-logs DIR   # Logs folder
+--target-results DIR # Results folder
+--format FORMAT     # csv, json, txt, markdown (default: csv)
+--output, -o FILE   # Custom output filename
 
-```bash
-./analyse_conversations_merged.py --exec \
-  --aiall --fichier export.json \
-  --prompt-file resume \
-  --format txt \
-  --output summary.txt
-```
-
-### Example 4: Test Without API Calls
-
-Test your setup in simulation mode:
-
-```bash
-./analyse_conversations_merged.py --exec \
-  --simulate \
-  --prompt-file test \
-  --fichier sample.json
+# Filters
+--cnbr N            # Process only conversation #N
+--only-split        # Only split conversations
+--not-split         # Only non-split conversations
 ```
 
 ---
@@ -236,6 +232,14 @@ Test your setup in simulation mode:
 ./analyse_conversations_merged.py --prompt-list
 ```
 
+### Provided Prompts
+
+The project includes several example prompts:
+
+- **`example_security_prompt`** - Comprehensive security analysis
+- **`example_child_safety_prompt`** - Child content safety assessment
+- **`example_full_security_analysis_prompt`** - In-depth security audit
+
 ---
 
 ## 📊 Output Formats
@@ -246,7 +250,7 @@ Test your setup in simulation mode:
 ```
 - Excel/LibreOffice compatible
 - Easy filtering and sorting
-- Best for: Data analysis, database import
+- **Best for**: Data analysis, database import
 
 ### JSON Format
 ```bash
@@ -254,7 +258,7 @@ Test your setup in simulation mode:
 ```
 - Hierarchical structure
 - Preserves all data types
-- Best for: Programmatic processing, API integration
+- **Best for**: Programmatic processing, API integration
 
 ### TXT Format
 ```bash
@@ -262,7 +266,7 @@ Test your setup in simulation mode:
 ```
 - Simple readable text
 - Visual separators
-- Best for: Quick reading, simple archiving
+- **Best for**: Quick reading, simple archiving
 
 ### Markdown Format
 ```bash
@@ -270,7 +274,7 @@ Test your setup in simulation mode:
 ```
 - Clickable table of contents
 - Statistics and metadata
-- Best for: GitHub, documentation, professional reports
+- **Best for**: GitHub, documentation, professional reports
 
 ---
 
@@ -286,64 +290,80 @@ NoXoZVorteX_prompted/
 ├── utils.py                           # Utilities
 ├── install.py                         # Installation
 ├── help.py                            # Help system
+│
 ├── prompts/                           # Custom prompts
 │   ├── prompt_example_security_prompt.txt
 │   ├── prompt_example_child_safety_prompt.txt
 │   └── prompt_example_full_security_analysis_prompt.txt
+│
 ├── data_example/                      # Example data
 │   ├── example_chatgpt_json.json
 │   ├── example_claude_json.json
 │   └── example_lechat_json.json
+│
 ├── logs_example/                      # Example logs
 ├── results_example/                   # Example results
+│
 ├── README.md                          # This file
 ├── LICENSE                            # MIT License
+├── requirements.txt                   # Python dependencies
+├── CHANGELOG.md                       # Version history
 └── TRY_THIS_FIRST.txt                # Quick start guide
 ```
 
 ---
 
-## 🔧 Advanced Usage
+## 🔧 Usage Examples
 
-### Command-Line Options
+### Example 1: Security Analysis
+
+Analyze conversations for security vulnerabilities:
 
 ```bash
-# Core Commands
---help              # Basic help
---help-adv          # Advanced help
---exec              # Execute analysis
---install           # Install dependencies
---prerequis         # Check prerequisites
-
-# Prompt Management
---prompt-file NAME  # Use prompt from prompts/
---prompt-text TEXT  # Direct inline prompt
---prompt-list       # List available prompts
-
-# Input Options
---fichier FILES     # Files to process (supports wildcards)
---recursive         # Recursive subdirectory search
---aiall / --auto    # Auto-detect format
-
-# Filtering
---cnbr N           # Process only conversation #N
---only-split       # Only split conversations
---not-split        # Only non-split conversations
-
-# Execution
---simulate         # Test mode (no API calls)
---workers N        # Parallel workers (default: 5)
---delay SECONDS    # Delay between requests (default: 0.5)
---model MODEL      # AI model to use
-
-# Output
---format TYPE      # csv, json, txt, markdown
---output FILE      # Custom output filename
---target-logs DIR  # Logs directory
---target-results DIR # Results directory
+./analyse_conversations_merged.py --exec \
+  --aiall --fichier data/*.json \
+  --prompt-file example_security_prompt \
+  --format markdown \
+  --target-results ./reports/security
 ```
 
-### Professional Workflow
+### Example 2: Content Moderation
+
+Check conversations for child safety:
+
+```bash
+./analyse_conversations_merged.py --exec \
+  --recursive --aiall \
+  --fichier ./conversations/ \
+  --prompt-file example_child_safety_prompt \
+  --format json \
+  --workers 10
+```
+
+### Example 3: Quick Summary
+
+Get a quick summary of conversations:
+
+```bash
+./analyse_conversations_merged.py --exec \
+  --aiall --fichier export.json \
+  --prompt-text "Summarize this conversation in 3 key points" \
+  --format txt \
+  --output summary.txt
+```
+
+### Example 4: Test Without API Calls
+
+Test your setup in simulation mode:
+
+```bash
+./analyse_conversations_merged.py --exec \
+  --simulate \
+  --prompt-file test \
+  --fichier sample.json
+```
+
+### Example 5: Professional Workflow
 
 ```bash
 #!/bin/bash
@@ -355,13 +375,13 @@ export MISTRAL_API_KEY=$(cat .mistral_key)
 ./analyse_conversations_merged.py --exec \
   --recursive --aiall \
   --fichier /data/exports/ \
-  --prompt-file security_analysis \
+  --prompt-file example_security_prompt \
   --target-logs "./logs/${DATE}" \
   --target-results "./results/${DATE}" \
   --format markdown \
   --workers 15
 
-# Send notification
+# Notification
 echo "Analysis completed: ${DATE}" | mail -s "Report" admin@example.com
 ```
 
@@ -434,6 +454,14 @@ cd NoXoZVorteX_prompted
 source .venv_analyse/bin/activate
 ```
 
+### Tests
+
+The project includes a comprehensive test suite:
+
+```bash
+python test_features.py
+```
+
 ---
 
 ## 📄 License
@@ -466,7 +494,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Support
 
 For questions, issues, or suggestions:
-1. Check the [Troubleshooting](#troubleshooting) section
+1. Check the [Troubleshooting](#-troubleshooting) section
 2. Review `help_advanced.txt` for detailed documentation
 3. Open an issue on GitHub
 4. Contact: bruno.delnoz@protonmail.com
@@ -484,4 +512,15 @@ For questions, issues, or suggestions:
 
 ---
 
+## 📊 Project Statistics
+
+- **Current Version**: 3.0.2
+- **Python Required**: 3.8+
+- **Supported Formats**: ChatGPT, Claude, LeChat/Mistral
+- **Output Formats**: CSV, JSON, TXT, Markdown
+- **Lines of Code**: ~3000+
+
+---
+
 **Made with ❤️ by Bruno DELNOZ**
+
