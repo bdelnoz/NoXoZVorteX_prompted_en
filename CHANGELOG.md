@@ -1,9 +1,26 @@
+<!--
+Document : CHANGELOG.md
+Auteur : Bruno DELNOZ
+Email : bruno.delnoz@protonmail.com
+Version : v3.1.0
+Date : 2026-04-20 11:35
+-->
 # Changelog
 
 All notable changes to the NoXoZVorteX_prompted project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+---
+
+
+## [3.1.0] - 2026-04-20
+
+### Changed
+- Synchronized Markdown documentation with the currently available scripts, CLI options, and repository layout.
+- Added/updated repository documentation set: `README.md`, `EXECUTABLE_FILES_GUIDE.md`, `INSTALL.md`, and `WHY.md`.
+- Added Markdown metadata headers required by repository documentation rules.
 
 ---
 
